@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇵🇹 Plan de Aventura — Portugal</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a6b4a;
+    --verde-claro: #2d9b6e;
+    --dorado: #e8a020;
+    --dorado-claro: #f5c860;
+    --crema: #fdf6e8;
+    --crema-oscuro: #f0e6cc;
+    --rojo: #c0392b;
+    --azul: #1a4a7a;
+    --texto: #1a1208;
+    --texto-suave: #6b5a3e;
+    --blanco: #fffef8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--crema);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--texto);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--verde);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 20% 80%, rgba(232,160,32,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(45,155,110,0.3) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-flags {
+    font-size: 52px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+    letter-spacing: 8px;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dorado-claro);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(52px, 10vw, 96px);
+    font-weight: 900;
+    color: var(--blanco);
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.3s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--dorado-claro);
+  }
+
+  .hero-subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,254,248,0.75);
+    text-align: center;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  .hero-names {
+    display: flex;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+
+  .name-pill {
+    background: rgba(255,254,248,0.12);
+    border: 1.5px solid rgba(255,254,248,0.25);
+    color: var(--blanco);
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,254,248,0.4);
+    font-size: 13px;
+    text-align: center;
+    animation: fadeIn 1s 1.2s forwards;
+    opacity: 0;
+  }
+
+  .scroll-arrow {
+    display: block;
+    margin: 6px auto 0;
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    animation: bounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(4px); }
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    background: var(--blanco);
+    padding: 80px 24px;
+    text-align: center;
+    border-bottom: 3px solid var(--crema-oscuro);
+  }
+
+  .intro-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    display: inline-block;
+    background: var(--dorado);
+    color: var(--blanco);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+  }
+
+  .section-tag.verde { background: var(--verde); }
+  .section-tag.azul { background: var(--azul); }
+  .section-tag.rojo { background: var(--rojo); }
+
+  .intro h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .intro p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--texto-suave);
+  }
+
+  .intro p strong { color: var(--texto); }
+
+  /* ── FINANZAS ── */
+  .finanzas {
+    background: var(--crema);
+    padding: 80px 24px;
+  }
+
+  .section-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    margin-top: 12px;
+    line-height: 1.2;
+  }
+
+  .money-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .money-card {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 28px 24px;
+    border: 2px solid var(--crema-oscuro);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .money-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  .money-card.verde::before { background: var(--verde); }
+  .money-card.dorado::before { background: var(--dorado); }
+  .money-card.rojo::before { background: var(--rojo); }
+  .money-card.azul::before { background: var(--azul); }
+
+  .money-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+
+  .money-emoji { font-size: 32px; margin-bottom: 10px; }
+  .money-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 6px; }
+  .money-value { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 900; color: var(--texto); margin-bottom: 4px; }
+  .money-sub { font-size: 13px; color: var(--texto-suave); }
+
+  .alert-box {
+    background: var(--verde);
+    color: var(--blanco);
+    border-radius: 20px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .alert-box .alert-icon { font-size: 28px; flex-shrink: 0; }
+  .alert-box p { font-size: 15px; line-height: 1.65; }
+  .alert-box strong { color: var(--dorado-claro); }
+
+  /* ── TIMELINE ── */
+  .timeline-section {
+    background: var(--texto);
+    color: var(--blanco);
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timeline-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 15% 50%, rgba(232,160,32,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .timeline-section .section-header h2 { color: var(--blanco); }
+
+  .timeline {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 36px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--dorado), var(--verde-claro), var(--dorado));
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .tl-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .tl-dot {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    border: 3px solid var(--dorado);
+    background: var(--texto);
+    z-index: 1;
+  }
+
+  .tl-dot .dot-month { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dorado-claro); }
+  .tl-dot .dot-year { font-size: 14px; font-weight: 600; color: rgba(255,254,248,0.6); }
+  .tl-dot .dot-emoji { font-size: 24px; }
+
+  .tl-content {
+    flex: 1;
+    background: rgba(255,254,248,0.06);
+    border: 1px solid rgba(255,254,248,0.12);
+    border-radius: 18px;
+    padding: 20px 24px;
+    margin-top: 8px;
+  }
+
+  .tl-content h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--dorado-claro);
+  }
+
+  .tl-tasks { list-style: none; }
+  .tl-tasks li {
+    font-size: 14px;
+    color: rgba(255,254,248,0.78);
+    padding: 5px 0;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255,254,248,0.06);
+    line-height: 1.5;
+  }
+  .tl-tasks li:last-child { border-bottom: none; }
+  .tl-tasks li::before { content: '→'; color: var(--verde-claro); flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+
+  .tl-urgency {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+
+  .u-urgente { background: rgba(192,57,43,0.3); color: #ff8a80; border: 1px solid rgba(192,57,43,0.5); }
+  .u-importante { background: rgba(232,160,32,0.2); color: var(--dorado-claro); border: 1px solid rgba(232,160,32,0.3); }
+  .u-accion { background: rgba(45,155,110,0.2); color: #80ffb8; border: 1px solid rgba(45,155,110,0.3); }
+  .u-salida { background: rgba(26,74,122,0.4); color: #80c8ff; border: 1px solid rgba(26,74,122,0.5); }
+
+  /* ── PASAPORTE ── */
+  .pasaporte-section {
+    background: var(--crema-oscuro);
+    padding: 80px 24px;
+  }
+
+  .passport-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 640px) {
+    .passport-grid { grid-template-columns: 1fr; }
+  }
+
+  .passport-card {
+    border-radius: 24px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s;
+  }
+
+  .passport-card:hover { transform: scale(1.02); }
+
+  .passport-card.opcion-a {
+    background: var(--azul);
+    color: var(--blanco);
+  }
+
+  .passport-card.opcion-b {
+    background: var(--verde);
+    color: var(--blanco);
+  }
+
+  .passport-card .pc-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+
+  .passport-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .passport-card .pc-sub {
+    font-size: 14px;
+    opacity: 0.75;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .pc-steps { list-style: none; }
+  .pc-steps li {
+    font-size: 14px;
+    opacity: 0.88;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .pc-steps li:last-child { border-bottom: none; }
+  .pc-steps li .step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pc-dificultad {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .pc-dificultad .d-label { font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .d-bar { height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
+  .d-fill { height: 100%; border-radius: 3px; background: rgba(255,255,255,0.7); }
+  .d-text { font-size: 13px; font-weight: 600; opacity: 0.9; margin-top: 6px; }
+
+  .passport-card .pc-emoji {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    font-size: 40px;
+    opacity: 0.3;
+  }
+
+  /* ── DOCS ── */
+  .docs-section {
+    background: var(--blanco);
+    padding: 80px 24px;
+  }
+
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .doc-card {
+    background: var(--crema);
+    border: 2px solid var(--crema-oscuro);
+    border-radius: 20px;
+    padding: 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .doc-card:hover { border-color: var(--verde); transform: translateY(-2px); }
+
+  .doc-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .doc-list { list-style: none; }
+  .doc-list li {
+    font-size: 13.5px;
+    color: var(--texto-suave);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--crema-oscuro);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .doc-list li:last-child { border-bottom: none; }
+  .doc-list li::before { content: '☑'; color: var(--verde); flex-shrink: 0; }
+
+  /* ── LLEGADA ── */
+  .llegada-section {
+    background: linear-gradient(135deg, var(--verde) 0%, #0d3d28 100%);
+    color: var(--blanco);
+    padding: 80px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .llegada-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 80% 40%, rgba(232,160,32,0.2) 0%, transparent 60%);
+  }
+
+  .llegada-section .section-header h2 { color: var(--blanco); }
+
+  .llegada-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .llegada-card {
+    background: rgba(255,254,248,0.08);
+    border: 1px solid rgba(255,254,248,0.15);
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: background 0.2s;
+  }
+
+  .llegada-card:hover { background: rgba(255,254,248,0.14); }
+
+  .llegada-card .l-emoji { font-size: 36px; margin-bottom: 10px; }
+  .llegada-card h4 { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .llegada-card p { font-size: 13px; opacity: 0.72; line-height: 1.55; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--texto);
+    color: var(--blanco);
+    text-align: center;
+    padding: 60px 24px;
+  }
+
+  .footer-emoji { font-size: 48px; margin-bottom: 16px; animation: float 3s ease-in-out infinite; display: block; }
+
+  .footer h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .footer h2 em { font-style: italic; color: var(--dorado-claro); }
+
+  .footer p {
+    font-size: 16px;
+    opacity: 0.6;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .footer-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--dorado);
+    border-radius: 2px;
+    margin: 32px auto 20px;
+  }
+
+  .footer-small { font-size: 12px !important; opacity: 0.35 !important; margin-top: 12px !important; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--dorado);
+    z-index: 1000;
+    transition: width 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-flags">🇲🇽 ✈️ 🇵🇹</div>
+  <p class="hero-eyebrow">El plan definitivo</p>
+  <h1 class="hero-title">La Gran<br><em>Aventura</em></h1>
+  <p class="hero-subtitle">De Xalapa a Europa — paso a paso, sin perderse nada</p>
+  <div class="hero-names">
+    <div class="name-pill">👩 Mamá</div>
+    <div class="name-pill">🧑 Hermano</div>
+  </div>
+  <div class="scroll-hint">
+    Desliza para ver el plan
+    <span class="scroll-arrow"></span>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="intro-inner fade-in-up">
+    <div class="section-tag">¿Por qué Portugal?</div>
+    <h2>El país más seguro de Europa, <em>con un plan claro para quedarse</em></h2>
+    <p>
+      Portugal es <strong>top 5 mundial en seguridad</strong>, el más barato de Europa occidental, y la única opción que les permite a las dos llegar con visa, trabajar desde el día uno, y tener un camino claro hacia el <strong>pasaporte europeo</strong> — sin renunciar al pasaporte mexicano.
+    </p>
+  </div>
+</section>
+
+<!-- FINANZAS -->
+<section class="finanzas">
+  <div class="section-inner">
+    <div class="section-header fade-in-up">
+      <div class="section-tag verde">Sus números</div>
+      <h2>El dinero está. Los números cuadran.</h2>
+    </div>
+    <div class="money-grid">
+      <div class="money-card verde fade-in-up">
+        <div class="money-emoji">🏪</div>
+        <div class="money-label">Locales (seguros siempre)</div>
+        <div class="money-value">€950<span style="font-size:18px;font-weight:400;">/mes</span></div>
+        <div class="money-sub">$20,000 MXN — nunca se pierden</div>
+      </div>
+      <div class="money-card dorado fade-in-up">
+        <div class="money-emoji">🏠</div>
+        <div class="money-label">Rentas casa (si no venden)</div>
+        <div class="money-value">€950<span style="font-size:18px;font-weight:400;">/mes</span></div>
+        <div class="money-sub">$20,000 MXN adicionales</div>
+      </div>
+      <div class="money-card azul fade-in-up">
+        <div class="money-emoji">💰</div>
+        <div class="money-label">Capital inicial disponible</div>
+        <div class="money-value">€10,000</div>
+        <div class="money-sub">$200,000 MXN listos para usar</div>
+      </div>
+      <div class="money-card verde fade-in-up">
+        <div class="money-emoji">🇵🇹</div>
+        <div class="money-label">Mínimo D7 Portugal</div>
+        <div class="money-value">€1,196<span style="font-size:18px;font-weight:400;">/mes</span></div>
+        <div class="money-sub">Ellas tienen €1,900 ✅</div>
+      </div>
+    </div>
+    <div class="alert-box fade-in-up">
+      <div class="alert-icon">✅</div>
+      <p>Con <strong>€1,900/mes de las rentas</strong> ya superan el requisito mínimo de la Visa D7 (€1,196/mes para dos personas). Y los <strong>€10,000 de capital inicial</strong> cubren prácticamente el único requisito bancario que faltaba (€10,440). El plan es financieramente viable <strong>sin vender la casa</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="section-inner">
+    <div class="section-header fade-in-up">
+      <div class="section-tag" style="background:var(--dorado);">Plan de acción</div>
+      <h2>Los próximos 6 meses — mes a mes</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span class="dot-emoji">📋</span>
+          <span class="dot-month">Jun</span>
+          <span class="dot-year">2026</span>
+        </div>
+        <div class="tl-content">
+          <span class="tl-urgency u-urgente">🔴 Empezar YA</span>
+          <h3>Apostillar todos los documentos</h3>
+          <ul class="tl-tasks">
+            <li>Título de Nutrición de mamá → apostillar en la SEP (tarda 3–4 semanas)</li>
+            <li>Plan de estudios oficial con sello de su universidad</li>
+            <li>Acta de nacimiento de mamá → Registro Civil apostillada</li>
+            <li>Acta de nacimiento del hermano → apostillada</li>
+            <li>Antecedentes penales de mamá → apostillar (PGR o SESNSP)</li>
+            <li>Certificado de preparatoria del hermano → SEP apostillado</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span class="dot-emoji">🏦</span>
+          <span class="dot-month">Jun</span>
+          <span class="dot-year">2026</span>
+        </div>
+        <div class="tl-content">
+          <span class="tl-urgency u-urgente">🔴 Empezar YA (en paralelo)</span>
+          <h3>Abrir cuenta bancaria en Portugal</h3>
+          <ul class="tl-tasks">
+            <li>Millennium BCP permite apertura remota desde México — hacerlo online</li>
+            <li>Depositar los €10,440 requeridos por la D7</li>
+            <li>Guardar extractos bancarios mexicanos de los últimos 3–6 meses (prueban los ingresos de renta)</li>
+            <li>Conseguir contratos de arrendamiento o escrituras de los locales (prueban el origen del ingreso)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span class="dot-emoji">🔍</span>
+          <span class="dot-month">Jul</span>
+          <span class="dot-year">2026</span>
+        </div>
+        <div class="tl-content">
+          <span class="tl-urgency u-importante">🟡 Importante</span>
+          <h3>Preparar el expediente D7</h3>
+          <ul class="tl-tasks">
+            <li>Verificar vigencia de pasaportes (mínimo 6 meses después de la fecha de entrada a Portugal)</li>
+            <li>Contratar seguro médico privado internacional: Cigna, AXA o Allianz (~€50/mes por persona)</li>
+            <li>Reservar alojamiento en Portugal para el primer mes (Airbnb o similar — sirve como prueba de domicilio)</li>
+            <li>Descargar y llenar formulario de solicitud de visa D en vistos.mne.gov.pt</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span class="dot-emoji">🏛️</span>
+          <span class="dot-month">Ago</span>
+          <span class="dot-year">2026</span>
+        </div>
+        <div class="tl-content">
+          <span class="tl-urgency u-accion">🟢 Acción clave</span>
+          <h3>Cita en el Consulado de Portugal</h3>
+          <ul class="tl-tasks">
+            <li>Consulado de Portugal en CDMX: +52 55 5520-7897 — pedir cita con anticipación</li>
+            <li>Presentar expediente completo (pasaportes, formulario, seguro médico, extractos, documentos apostillados, alojamiento)</li>
+            <li>Tasa consular: ~€90 por persona (~€180 en total)</li>
+            <li>Proceso de aprobación: 2–3 meses — por eso hay que solicitarla en agosto</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span class="dot-emoji">🎒</span>
+          <span class="dot-month">Sep</span>
+          <span class="dot-year">2026</span>
+        </div>
+        <div class="tl-content">
+          <span class="tl-urgency u-accion">🟢 Preparar la mudanza</span>
+          <h3>Organizar la vida antes de partir</h3>
+          <ul class="tl-tasks">
+            <li>Decidir qué pasa con la casa de los departamentos (vender o dejar a alguien de confianza administrando)</li>
+            <li>Dejar instrucciones claras para que los locales sigan generando ingresos sin interrupciones</li>
+            <li>Hacer traducción jurada al portugués de los documentos principales</li>
+            <li>Investigar ciudades de Portugal (Braga, Coimbra, Setúbal — ver cuál les emociona más)</li>
+            <li>Buscar departamento permanente en Portugal para llegar con algo ya elegido</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span class="dot-emoji">✈️</span>
+          <span class="dot-month">Nov</span>
+          <span class="dot-year">2026</span>
+        </div>
+        <div class="tl-content">
+          <span class="tl-urgency u-salida">🔵 ¡La salida!</span>
+          <h3>Volar a Portugal antes de diciembre</h3>
+          <ul class="tl-tasks">
+            <li>Salir antes de diciembre para aprovechar los últimos meses con los ingresos completos ($100k MXN)</li>
+            <li>Llevar los documentos apostillados y el expediente completo en físico y digital</li>
+            <li>Vuelo directo CDMX → Lisboa (aprox. 10–11 hrs, aerolíneas: Iberia, TAP Portugal, Air Europa)</li>
+            <li>¡Empezar la aventura! 🎉</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PASAPORTE -->
+<section class="pasaporte-section">
+  <div class="section-inner">
+    <div class="section-header fade-in-up">
+      <div class="section-tag azul">El objetivo final</div>
+      <h2>Dos caminos al pasaporte europeo</h2>
+    </div>
+    <div class="passport-grid">
+
+      <div class="passport-card opcion-a fade-in-up">
+        <span class="pc-emoji">🇪🇸</span>
+        <div class="pc-label">Opción A — La más rápida</div>
+        <h3>Pasaporte Español en ~4 años</h3>
+        <p class="pc-sub">Portugal como base → mudarse a España → 2 años de residencia → nationalidad española</p>
+        <ul class="pc-steps">
+          <li><span class="step-num">1</span>Llegan a Portugal con D7 (fin 2026)</li>
+          <li><span class="step-num">2</span>Se establecen 1–2 años en Portugal</li>
+          <li><span class="step-num">3</span>Se mudan a España (~2028) con nuevo permiso</li>
+          <li><span class="step-num">4</span>2 años de residencia legal en España</li>
+          <li><span class="step-num">5</span>Solicitan nationalidad española (~2030)</li>
+          <li><span class="step-num">6</span>Pasaporte español aprobado (~2031) 🎉</li>
+        </ul>
+        <div class="pc-dificultad">
+          <div class="d-label">Dificultad</div>
+          <div class="d-bar"><div class="d-fill" style="width:40%;"></div></div>
+          <div class="d-text">Media-baja — proceso rutinario para mexicanas ✅</div>
+        </div>
+        <p style="font-size:12px;opacity:0.6;margin-top:10px;">✨ Conservan pasaporte mexicano (doble nationalidad)</p>
+      </div>
+
+      <div class="passport-card opcion-b fade-in-up">
+        <span class="pc-emoji">🇵🇹</span>
+        <div class="pc-label">Opción B — La más elegante</div>
+        <h3>Pasaporte Portugués vía hermano</h3>
+        <p class="pc-sub">Hermano estudia en Portugal → ciudadanía anticipada → mamá por vía familiar</p>
+        <ul class="pc-steps">
+          <li><span class="step-num">1</span>Llegan a Portugal (fin 2026)</li>
+          <li><span class="step-num">2</span>Hermano entra al sistema educativo portugués</li>
+          <li><span class="step-num">3</span>Aprende portugués (3–4 meses para hispanohablante)</li>
+          <li><span class="step-num">4</span>Hermano cumple 18 (jul 2027), entra a universidad</li>
+          <li><span class="step-num">5</span>Con 1+ año en sistema PT, consultar ciudadanía anticipada</li>
+          <li><span class="step-num">6</span>Hermano con pasaporte PT → mamá por vía familiar 🎉</li>
+        </ul>
+        <div class="pc-dificultad">
+          <div class="d-label">Dificultad</div>
+          <div class="d-bar"><div class="d-fill" style="width:55%;"></div></div>
+          <div class="d-text">Media — confirmar ruta exacta con abogado al llegar</div>
+        </div>
+        <p style="font-size:12px;opacity:0.6;margin-top:10px;">✨ Pasaporte portugués + mexicano (los dos se guardan)</p>
+      </div>
+
+    </div>
+    <div class="alert-box fade-in-up" style="max-width:900px;margin:20px auto 0;background:var(--texto);">
+      <div class="alert-icon">💡</div>
+      <p>Lo inteligente es <strong>activar las dos opciones en paralelo</strong>. No hay que elegir ahora — se llega a Portugal con la D7 y a los 6–12 meses viviendo allá, se decide cuál ruta al pasaporte está más abierta. Las dos son reales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOCS -->
+<section class="docs-section">
+  <div class="section-inner">
+    <div class="section-header fade-in-up">
+      <div class="section-tag rojo">Documentos</div>
+      <h2>El checklist completo antes de salir</h2>
+    </div>
+    <div class="docs-grid">
+
+      <div class="doc-card fade-in-up">
+        <h4>📜 Apostillar en México</h4>
+        <ul class="doc-list">
+          <li>Título de Nutrición de mamá (SEP)</li>
+          <li>Plan de estudios oficial (universidad)</li>
+          <li>Acta de nacimiento de mamá</li>
+          <li>Acta de nacimiento del hermano</li>
+          <li>Antecedentes penales (PGR/SESNSP)</li>
+          <li>Certificado de preparatoria del hermano</li>
+        </ul>
+      </div>
+
+      <div class="doc-card fade-in-up">
+        <h4>🏦 Finanzas y banco</h4>
+        <ul class="doc-list">
+          <li>Cuenta bancaria en Portugal (Millennium BCP remota)</li>
+          <li>Depositar €10,440 en cuenta PT</li>
+          <li>Extractos bancarios 3–6 meses (rentas)</li>
+          <li>Contratos de arrendamiento / escrituras</li>
+          <li>Pasaportes vigentes (mín. 6 meses)</li>
+        </ul>
+      </div>
+
+      <div class="doc-card fade-in-up">
+        <h4>🏛️ Para la visa D7</h4>
+        <ul class="doc-list">
+          <li>Formulario visa D (vistos.mne.gov.pt)</li>
+          <li>Seguro médico privado internacional</li>
+          <li>Prueba de alojamiento en Portugal</li>
+          <li>Tasa consular ~€90/persona</li>
+          <li>Cita en Consulado Portugal CDMX</li>
+        </ul>
+      </div>
+
+      <div class="doc-card fade-in-up">
+        <h4>🌍 Traducciones juradas</h4>
+        <ul class="doc-list">
+          <li>Todos los documentos apostillados → traducir al portugués</li>
+          <li>Título de Nutrición traducido (para homologación futura)</li>
+          <li>Plan de estudios traducido</li>
+          <li>Contratar traductor oficial español-portugués certificado</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LLEGADA -->
+<section class="llegada-section">
+  <div class="section-inner">
+    <div class="section-header fade-in-up">
+      <div class="section-tag" style="background:var(--dorado);">Al llegar a Portugal</div>
+      <h2>Los primeros pasos en tierra portuguesa</h2>
+    </div>
+    <div class="llegada-grid">
+      <div class="llegada-card fade-in-up">
+        <div class="l-emoji">🪪</div>
+        <h4>Registrarse en AIMA</h4>
+        <p>Dentro de los primeros días hábiles. Aquí obtienen el Título de Residencia — el documento más importante.</p>
+      </div>
+      <div class="llegada-card fade-in-up">
+        <div class="l-emoji">🔢</div>
+        <h4>Obtener el NIF</h4>
+        <p>Número de identificación fiscal portugués. Necesario para trabajar, abrir cuenta local y firmar contratos.</p>
+      </div>
+      <div class="llegada-card fade-in-up">
+        <div class="l-emoji">🏫</div>
+        <h4>Inscribir al hermano</h4>
+        <p>Con el certificado de preparatoria apostillado, la Direção-Geral da Educação asigna grado escolar.</p>
+      </div>
+      <div class="llegada-card fade-in-up">
+        <div class="l-emoji">💼</div>
+        <h4>Mamá empieza a trabajar</h4>
+        <p>Con D7 puede trabajar tiempo completo desde el día uno. Hostelería, enseñanza de español o nutrición informal.</p>
+      </div>
+      <div class="llegada-card fade-in-up">
+        <div class="l-emoji">⚖️</div>
+        <h4>Consulta con abogado</h4>
+        <p>Primera consulta con abogado de inmigración portugués para confirmar ruta de ciudadanía del hermano (€100–200).</p>
+      </div>
+      <div class="llegada-card fade-in-up">
+        <div class="l-emoji">🎓</div>
+        <h4>Iniciar homologación del título</h4>
+        <p>Solicitar reconocimiento del título de Nutrición ante el Ministerio de Educación portugués. Tarda 12–15 meses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-emoji">🌊</span>
+  <h2>El mundo está<br><em>esperándolas</em></h2>
+  <div class="footer-divider"></div>
+  <p>Portugal las espera con clima mediterráneo, gente cálida, y el camino más claro de Europa para construir una vida nueva — con pasaporte europeo incluido.</p>
+  <p class="footer-small">Plan elaborado con toda la investigación disponible a mayo 2026. Siempre confirmar requisitos vigentes con el Consulado de Portugal y un abogado de inmigración.</p>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const bar = document.getElementById('progressBar');
+    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    bar.style.width = scrolled + '%';
+  });
+
+  // Intersection Observer for animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in-up, .tl-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
