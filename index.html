@@ -2,1042 +2,1445 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇵🇹 Plan de Aventura — Portugal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>🇵🇹 Portugal — La Gran Aventura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <style>
-  :root {
-    --verde: #1a6b4a;
-    --verde-claro: #2d9b6e;
-    --dorado: #e8a020;
-    --dorado-claro: #f5c860;
-    --crema: #fdf6e8;
-    --crema-oscuro: #f0e6cc;
-    --rojo: #c0392b;
-    --azul: #1a4a7a;
-    --texto: #1a1208;
-    --texto-suave: #6b5a3e;
-    --blanco: #fffef8;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--crema);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--texto);
-    overflow-x: hidden;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    background: var(--verde);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 24px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse 80% 50% at 20% 80%, rgba(232,160,32,0.18) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(45,155,110,0.3) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .hero-flags {
-    font-size: 52px;
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
-    letter-spacing: 8px;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  .hero-eyebrow {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--dorado-claro);
-    margin-bottom: 16px;
-    opacity: 0;
-    animation: fadeUp 0.6s 0.2s forwards;
-  }
-
-  .hero-title {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(52px, 10vw, 96px);
-    font-weight: 900;
-    color: var(--blanco);
-    text-align: center;
-    line-height: 1;
-    margin-bottom: 8px;
-    opacity: 0;
-    animation: fadeUp 0.7s 0.3s forwards;
-  }
-
-  .hero-title em {
-    font-style: italic;
-    color: var(--dorado-claro);
-  }
-
-  .hero-subtitle {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(18px, 3vw, 26px);
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(255,254,248,0.75);
-    text-align: center;
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.7s 0.4s forwards;
-  }
-
-  .hero-names {
-    display: flex;
-    gap: 12px;
-    opacity: 0;
-    animation: fadeUp 0.7s 0.5s forwards;
-  }
-
-  .name-pill {
-    background: rgba(255,254,248,0.12);
-    border: 1.5px solid rgba(255,254,248,0.25);
-    color: var(--blanco);
-    padding: 10px 22px;
-    border-radius: 999px;
-    font-size: 15px;
-    font-weight: 500;
-    backdrop-filter: blur(4px);
-  }
-
-  .scroll-hint {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255,254,248,0.4);
-    font-size: 13px;
-    text-align: center;
-    animation: fadeIn 1s 1.2s forwards;
-    opacity: 0;
-  }
-
-  .scroll-arrow {
-    display: block;
-    margin: 6px auto 0;
-    width: 20px;
-    height: 20px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
-    animation: bounce 1.5s ease-in-out infinite;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: rotate(45deg) translateY(0); }
-    50% { transform: rotate(45deg) translateY(4px); }
-  }
-
-  /* ── INTRO ── */
-  .intro {
-    background: var(--blanco);
-    padding: 80px 24px;
-    text-align: center;
-    border-bottom: 3px solid var(--crema-oscuro);
-  }
-
-  .intro-inner {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  .section-tag {
-    display: inline-block;
-    background: var(--dorado);
-    color: var(--blanco);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 999px;
-    margin-bottom: 20px;
-  }
-
-  .section-tag.verde { background: var(--verde); }
-  .section-tag.azul { background: var(--azul); }
-  .section-tag.rojo { background: var(--rojo); }
-
-  .intro h2 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(32px, 5vw, 52px);
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 20px;
-  }
-
-  .intro p {
-    font-size: 17px;
-    line-height: 1.75;
-    color: var(--texto-suave);
-  }
-
-  .intro p strong { color: var(--texto); }
-
-  /* ── FINANZAS ── */
-  .finanzas {
-    background: var(--crema);
-    padding: 80px 24px;
-  }
-
-  .section-inner {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  .section-header h2 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700;
-    margin-top: 12px;
-    line-height: 1.2;
-  }
-
-  .money-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-
-  .money-card {
-    background: var(--blanco);
-    border-radius: 20px;
-    padding: 28px 24px;
-    border: 2px solid var(--crema-oscuro);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .money-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-  }
-
-  .money-card.verde::before { background: var(--verde); }
-  .money-card.dorado::before { background: var(--dorado); }
-  .money-card.rojo::before { background: var(--rojo); }
-  .money-card.azul::before { background: var(--azul); }
-
-  .money-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
-
-  .money-emoji { font-size: 32px; margin-bottom: 10px; }
-  .money-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-suave); margin-bottom: 6px; }
-  .money-value { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 900; color: var(--texto); margin-bottom: 4px; }
-  .money-sub { font-size: 13px; color: var(--texto-suave); }
-
-  .alert-box {
-    background: var(--verde);
-    color: var(--blanco);
-    border-radius: 20px;
-    padding: 24px 28px;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .alert-box .alert-icon { font-size: 28px; flex-shrink: 0; }
-  .alert-box p { font-size: 15px; line-height: 1.65; }
-  .alert-box strong { color: var(--dorado-claro); }
-
-  /* ── TIMELINE ── */
-  .timeline-section {
-    background: var(--texto);
-    color: var(--blanco);
-    padding: 80px 24px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .timeline-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 70% 50% at 15% 50%, rgba(232,160,32,0.12) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .timeline-section .section-header h2 { color: var(--blanco); }
-
-  .timeline {
-    position: relative;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 36px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--dorado), var(--verde-claro), var(--dorado));
-  }
-
-  .tl-item {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 40px;
-    align-items: flex-start;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.5s, transform 0.5s;
-  }
-
-  .tl-item.visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .tl-dot {
-    width: 74px;
-    height: 74px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-family: 'Fraunces', serif;
-    font-weight: 900;
-    border: 3px solid var(--dorado);
-    background: var(--texto);
-    z-index: 1;
-  }
-
-  .tl-dot .dot-month { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dorado-claro); }
-  .tl-dot .dot-year { font-size: 14px; font-weight: 600; color: rgba(255,254,248,0.6); }
-  .tl-dot .dot-emoji { font-size: 24px; }
-
-  .tl-content {
-    flex: 1;
-    background: rgba(255,254,248,0.06);
-    border: 1px solid rgba(255,254,248,0.12);
-    border-radius: 18px;
-    padding: 20px 24px;
-    margin-top: 8px;
-  }
-
-  .tl-content h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--dorado-claro);
-  }
-
-  .tl-tasks { list-style: none; }
-  .tl-tasks li {
-    font-size: 14px;
-    color: rgba(255,254,248,0.78);
-    padding: 5px 0;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    border-bottom: 1px solid rgba(255,254,248,0.06);
-    line-height: 1.5;
-  }
-  .tl-tasks li:last-child { border-bottom: none; }
-  .tl-tasks li::before { content: '→'; color: var(--verde-claro); flex-shrink: 0; font-weight: 700; margin-top: 1px; }
-
-  .tl-urgency {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 3px 10px;
-    border-radius: 999px;
-    margin-bottom: 10px;
-  }
-
-  .u-urgente { background: rgba(192,57,43,0.3); color: #ff8a80; border: 1px solid rgba(192,57,43,0.5); }
-  .u-importante { background: rgba(232,160,32,0.2); color: var(--dorado-claro); border: 1px solid rgba(232,160,32,0.3); }
-  .u-accion { background: rgba(45,155,110,0.2); color: #80ffb8; border: 1px solid rgba(45,155,110,0.3); }
-  .u-salida { background: rgba(26,74,122,0.4); color: #80c8ff; border: 1px solid rgba(26,74,122,0.5); }
-
-  /* ── PASAPORTE ── */
-  .pasaporte-section {
-    background: var(--crema-oscuro);
-    padding: 80px 24px;
-  }
-
-  .passport-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  @media (max-width: 640px) {
-    .passport-grid { grid-template-columns: 1fr; }
-  }
-
-  .passport-card {
-    border-radius: 24px;
-    padding: 32px 28px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.25s;
-  }
-
-  .passport-card:hover { transform: scale(1.02); }
-
-  .passport-card.opcion-a {
-    background: var(--azul);
-    color: var(--blanco);
-  }
-
-  .passport-card.opcion-b {
-    background: var(--verde);
-    color: var(--blanco);
-  }
-
-  .passport-card .pc-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 8px;
-  }
-
-  .passport-card h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 26px;
-    font-weight: 900;
-    margin-bottom: 4px;
-    line-height: 1.2;
-  }
-
-  .passport-card .pc-sub {
-    font-size: 14px;
-    opacity: 0.75;
-    margin-bottom: 20px;
-    line-height: 1.5;
-  }
-
-  .pc-steps { list-style: none; }
-  .pc-steps li {
-    font-size: 14px;
-    opacity: 0.88;
-    padding: 7px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    line-height: 1.5;
-  }
-  .pc-steps li:last-child { border-bottom: none; }
-  .pc-steps li .step-num {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .pc-dificultad {
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255,255,255,0.15);
-  }
-  .pc-dificultad .d-label { font-size: 11px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
-  .d-bar { height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; }
-  .d-fill { height: 100%; border-radius: 3px; background: rgba(255,255,255,0.7); }
-  .d-text { font-size: 13px; font-weight: 600; opacity: 0.9; margin-top: 6px; }
-
-  .passport-card .pc-emoji {
-    position: absolute;
-    right: 24px;
-    top: 24px;
-    font-size: 40px;
-    opacity: 0.3;
-  }
-
-  /* ── DOCS ── */
-  .docs-section {
-    background: var(--blanco);
-    padding: 80px 24px;
-  }
-
-  .docs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .doc-card {
-    background: var(--crema);
-    border: 2px solid var(--crema-oscuro);
-    border-radius: 20px;
-    padding: 24px;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-
-  .doc-card:hover { border-color: var(--verde); transform: translateY(-2px); }
-
-  .doc-card h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .doc-list { list-style: none; }
-  .doc-list li {
-    font-size: 13.5px;
-    color: var(--texto-suave);
-    padding: 6px 0;
-    border-bottom: 1px solid var(--crema-oscuro);
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-    line-height: 1.5;
-  }
-  .doc-list li:last-child { border-bottom: none; }
-  .doc-list li::before { content: '☑'; color: var(--verde); flex-shrink: 0; }
-
-  /* ── LLEGADA ── */
-  .llegada-section {
-    background: linear-gradient(135deg, var(--verde) 0%, #0d3d28 100%);
-    color: var(--blanco);
-    padding: 80px 24px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .llegada-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 60% at 80% 40%, rgba(232,160,32,0.2) 0%, transparent 60%);
-  }
-
-  .llegada-section .section-header h2 { color: var(--blanco); }
-
-  .llegada-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-
-  .llegada-card {
-    background: rgba(255,254,248,0.08);
-    border: 1px solid rgba(255,254,248,0.15);
-    border-radius: 20px;
-    padding: 28px 20px;
-    text-align: center;
-    transition: background 0.2s;
-  }
-
-  .llegada-card:hover { background: rgba(255,254,248,0.14); }
-
-  .llegada-card .l-emoji { font-size: 36px; margin-bottom: 10px; }
-  .llegada-card h4 { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-  .llegada-card p { font-size: 13px; opacity: 0.72; line-height: 1.55; }
-
-  /* ── FOOTER ── */
-  .footer {
-    background: var(--texto);
-    color: var(--blanco);
-    text-align: center;
-    padding: 60px 24px;
-  }
-
-  .footer-emoji { font-size: 48px; margin-bottom: 16px; animation: float 3s ease-in-out infinite; display: block; }
-
-  .footer h2 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(28px, 5vw, 48px);
-    font-weight: 900;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-
-  .footer h2 em { font-style: italic; color: var(--dorado-claro); }
-
-  .footer p {
-    font-size: 16px;
-    opacity: 0.6;
-    max-width: 500px;
-    margin: 0 auto;
-    line-height: 1.65;
-  }
-
-  .footer-divider {
-    width: 60px;
-    height: 3px;
-    background: var(--dorado);
-    border-radius: 2px;
-    margin: 32px auto 20px;
-  }
-
-  .footer-small { font-size: 12px !important; opacity: 0.35 !important; margin-top: 12px !important; }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-
-  .fade-in-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s, transform 0.6s;
-  }
-
-  .fade-in-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── PROGRESS BAR ── */
-  .progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3px;
-    background: var(--dorado);
-    z-index: 1000;
-    transition: width 0.1s;
-  }
+:root {
+  --verde:#1a6b4a; --verde-c:#2d9b6e; --dorado:#e8a020; --dorado-c:#f5c860;
+  --rojo:#c0392b; --azul:#1a4a7a;
+  --bg:#0d0d0d; --bg2:#141414; --bg3:#1c1c1c;
+  --texto:#f5f0e8; --texto-s:rgba(245,240,232,.55);
+  --border:rgba(245,240,232,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--texto);overflow-x:hidden;min-height:100vh}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 20%,rgba(232,160,32,.07) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 80%,rgba(45,155,110,.09) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 50% 50%,rgba(26,74,122,.05) 0%,transparent 70%);
+  animation:aurora 14s ease-in-out infinite alternate;
+}
+@keyframes aurora{
+  0%{opacity:.7}50%{opacity:1}100%{opacity:.8}
+}
+
+/* SETUP */
+#setup-screen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
+.setup-card{background:var(--bg3);border:1px solid var(--border);border-radius:24px;max-width:560px;width:100%;padding:40px;text-align:center}
+.setup-card h2{font-family:'Fraunces',serif;font-size:28px;font-weight:900;margin:16px 0 8px}
+.setup-card p{color:var(--texto-s);font-size:15px;line-height:1.7;margin-bottom:24px}
+.setup-steps{text-align:left;list-style:none;margin-bottom:28px}
+.setup-steps li{font-size:13.5px;color:var(--texto-s);padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;line-height:1.6}
+.setup-steps li:last-child{border:none}
+.sn{width:22px;height:22px;border-radius:50%;background:var(--dorado);color:#000;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.setup-input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--texto);font-size:12px;font-family:monospace;resize:vertical;min-height:140px;margin-bottom:16px}
+.setup-input:focus{outline:2px solid var(--dorado);border-color:transparent}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--dorado);color:#000;font-weight:700;font-size:15px;border:none;border-radius:999px;padding:14px 32px;cursor:pointer;transition:transform .15s,box-shadow .15s;width:100%}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,160,32,.35)}
+.btn-primary:active{transform:translateY(0)}
+.hidden{display:none!important}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(13,13,13,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px}
+.topbar-brand{font-family:'Fraunces',serif;font-weight:900;font-size:17px;display:flex;align-items:center;gap:8px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.btn-signin{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);color:var(--texto);font-size:13px;font-weight:600;border-radius:999px;padding:8px 16px;cursor:pointer;transition:border-color .2s,background .2s}
+.btn-signin:hover{border-color:var(--dorado);background:rgba(232,160,32,.08)}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:6px 12px 6px 6px;cursor:pointer;transition:border-color .2s}
+.user-chip:hover{border-color:var(--dorado)}
+.chip-avatar{width:28px;height:28px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center}
+.chip-name{font-size:13px;font-weight:600}
+.chip-role{font-size:11px;color:var(--texto-s)}
+.btn-signout{background:transparent;border:1px solid var(--border);color:var(--texto-s);font-size:12px;border-radius:999px;padding:6px 12px;cursor:pointer;transition:border-color .2s,color .2s}
+.btn-signout:hover{border-color:var(--rojo);color:var(--rojo)}
+
+/* RACE */
+.race-section{padding:40px 20px 28px;position:relative;z-index:1;border-bottom:1px solid var(--border)}
+.race-inner{max-width:860px;margin:0 auto}
+.race-label{font-family:'Fraunces',serif;font-size:clamp(22px,4vw,36px);font-weight:900;margin-bottom:4px;line-height:1.2}
+.race-label em{font-style:italic;color:var(--dorado-c)}
+.race-sub{font-size:14px;color:var(--texto-s);margin-bottom:28px}
+.race-bars{display:flex;flex-direction:column;gap:22px}
+.race-row{display:flex;align-items:center;gap:14px}
+.race-info{width:86px;flex-shrink:0;display:flex;align-items:center;gap:8px}
+.race-person-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid rgba(255,255,255,.1);flex-shrink:0;transition:transform .3s,box-shadow .3s;cursor:pointer}
+.race-person-avatar:hover{transform:scale(1.18)}
+.race-person-name{font-size:12px;font-weight:600;line-height:1.2}
+.race-person-pct{font-family:'Fraunces',serif;font-size:15px;font-weight:900;color:var(--dorado-c)}
+.race-track-wrap{flex:1;position:relative;padding-right:30px}
+.race-track{height:22px;background:rgba(255,255,255,.05);border-radius:999px;position:relative;overflow:visible}
+.race-fill{height:100%;border-radius:999px;position:relative;transition:width 1.1s cubic-bezier(.34,1.56,.64,1);min-width:0}
+.race-fill::after{content:'';position:absolute;inset:0;border-radius:999px;background:linear-gradient(90deg,transparent 30%,rgba(255,255,255,.18) 70%,rgba(255,255,255,.32) 100%)}
+.race-rider{position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:22px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.7));animation:rider-idle 2.4s ease-in-out infinite;z-index:2}
+@keyframes rider-idle{0%,100%{transform:translateY(-52%) rotate(-6deg) scale(1)}50%{transform:translateY(-48%) rotate(6deg) scale(1.08)}}
+.race-last{font-size:11px;color:var(--texto-s);text-align:right;margin-top:3px}
+.race-vs{text-align:center;padding:10px 0 2px;font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--texto-s);letter-spacing:.06em}
+.race-vs.live{color:var(--dorado-c);animation:pulse-text 2s ease-in-out infinite}
+@keyframes pulse-text{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* NAV TABS */
+.tab-nav{background:rgba(13,13,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{display:flex;align-items:center;gap:6px;padding:0 20px;height:48px;font-size:13px;font-weight:600;color:var(--texto-s);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s;flex-shrink:0}
+.tab-btn.active{color:var(--dorado);border-bottom-color:var(--dorado)}
+.tab-btn:hover:not(.active){color:var(--texto)}
+.tab-dot{width:7px;height:7px;border-radius:50%;background:var(--texto-s);transition:background .2s;flex-shrink:0}
+.tab-btn.active .tab-dot{background:var(--dorado)}
+
+/* SECTIONS */
+.section-page{display:none;padding:32px 20px 80px;max-width:900px;margin:0 auto;animation:fadeInUp .4s ease forwards}
+.section-page.active{display:block}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.section-head{margin-bottom:32px}
+.section-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:12px;background:var(--dorado);color:#000}
+.section-tag.verde{background:var(--verde);color:#fff}
+.section-tag.azul{background:var(--azul);color:#fff}
+.section-tag.rojo{background:var(--rojo);color:#fff}
+.section-head h2{font-family:'Fraunces',serif;font-size:clamp(26px,4vw,40px);font-weight:900;line-height:1.2}
+.section-head p{font-size:15px;color:var(--texto-s);margin-top:8px;line-height:1.7}
+
+/* TIMELINE */
+.tl-group{margin-bottom:14px;border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color .3s}
+.tl-group.complete{border-color:rgba(45,155,110,.45)}
+.tl-group-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;background:var(--bg2);transition:background .2s;user-select:none;flex-wrap:wrap;gap:10px}
+.tl-group-header:hover{background:var(--bg3)}
+.tl-dot-mini{width:46px;height:46px;border-radius:50%;border:2px solid var(--dorado);background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.tl-group.complete .tl-dot-mini{background:var(--verde-c);border-color:var(--verde-c)}
+.dm-emoji{font-size:17px}
+.dm-month{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dorado-c)}
+.tl-group-meta{flex:1;min-width:0}
+.tl-group-meta h3{font-family:'Fraunces',serif;font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-group-meta .gmeta{font-size:12px;color:var(--texto-s);margin-top:2px}
+.tl-urgency{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;flex-shrink:0}
+.u-urgente{background:rgba(192,57,43,.25);color:#ff8a80;border:1px solid rgba(192,57,43,.4)}
+.u-importante{background:rgba(232,160,32,.2);color:var(--dorado-c);border:1px solid rgba(232,160,32,.3)}
+.u-accion{background:rgba(45,155,110,.2);color:#80ffb8;border:1px solid rgba(45,155,110,.3)}
+.u-salida{background:rgba(26,74,122,.35);color:#80c8ff;border:1px solid rgba(26,74,122,.5)}
+.tl-chevron{color:var(--texto-s);font-size:13px;transition:transform .3s;flex-shrink:0}
+.tl-group.open .tl-chevron{transform:rotate(180deg)}
+.tl-body{display:none;padding:0 20px 16px}
+.tl-group.open .tl-body{display:block}
+.tl-progress-mini{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.tl-progress-fill{height:100%;border-radius:2px;background:var(--verde-c);transition:width .6s ease}
+
+/* CHECKLIST ITEMS */
+.item-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
+.item-row:last-child{border:none}
+.item-checks{display:flex;gap:6px;flex-shrink:0;margin-top:1px}
+.check-wrap{position:relative;width:24px;height:24px;cursor:pointer;flex-shrink:0}
+.check-wrap.disabled{cursor:default;opacity:.45}
+.check-box{width:24px;height:24px;border-radius:7px;border:2px solid rgba(255,255,255,.12);background:var(--bg2);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.check-wrap:not(.disabled):hover .check-box{border-color:var(--dorado);background:rgba(232,160,32,.08)}
+.check-wrap.checked .check-box{border-color:transparent}
+.check-svg{width:13px;height:11px}
+.check-path{fill:none;stroke:#000;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:22;stroke-dashoffset:22;transition:stroke-dashoffset .3s ease}
+.check-wrap.checked .check-path{stroke-dashoffset:0}
+.check-mini-label{font-size:9px;position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);color:var(--texto-s);white-space:nowrap;font-weight:600;pointer-events:none}
+.item-text{font-size:14px;color:var(--texto);line-height:1.55;flex:1}
+.item-text.all-done{text-decoration:line-through;color:var(--texto-s);opacity:.65}
+.item-note{font-size:12px;color:var(--texto-s);margin-top:3px;line-height:1.5}
+.item-who{flex-shrink:0;font-size:10px;padding:2px 7px;border-radius:999px;font-weight:700;margin-top:3px}
+.who-mama{background:rgba(232,160,32,.12);color:var(--dorado-c);border:1px solid rgba(232,160,32,.2)}
+.who-hermano{background:rgba(45,155,110,.12);color:#80ffb8;border:1px solid rgba(45,155,110,.2)}
+.who-shared{background:rgba(255,255,255,.05);color:var(--texto-s);border:1px solid var(--border)}
+
+/* DOCS */
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.doc-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:22px;transition:border-color .2s,transform .25s}
+.doc-card:hover{border-color:rgba(232,160,32,.25)}
+.doc-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.doc-card-header h4{font-family:'Fraunces',serif;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.doc-progress-badge{font-family:'Fraunces',serif;font-size:13px;font-weight:900;color:var(--dorado-c);background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.2);padding:3px 8px;border-radius:999px}
+.status-item{display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;border-radius:8px}
+.status-item:last-child{border-bottom:none}
+.status-item:hover{background:rgba(255,255,255,.03)}
+.status-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;letter-spacing:.04em;transition:all .25s}
+.st-pending{background:rgba(192,57,43,.14);color:#ff8a80;border:1px solid rgba(192,57,43,.22)}
+.st-progress{background:rgba(232,160,32,.14);color:var(--dorado-c);border:1px solid rgba(232,160,32,.22)}
+.st-done{background:rgba(45,155,110,.14);color:#80ffb8;border:1px solid rgba(45,155,110,.22)}
+.status-item-text{font-size:13px;color:var(--texto);flex:1;line-height:1.5}
+.status-item-text.done-text{text-decoration:line-through;color:var(--texto-s);opacity:.55}
+.who-dots{display:flex;gap:3px;flex-shrink:0}
+.who-dot{width:8px;height:8px;border-radius:50%;transition:opacity .2s}
+
+/* GUIDE */
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:28px}
+.guide-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:22px;transition:border-color .2s,transform .25s}
+.guide-card:hover{border-color:rgba(45,155,110,.3)}
+.guide-card h4{font-family:'Fraunces',serif;font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.guide-card p,.guide-card li{font-size:13.5px;color:var(--texto-s);line-height:1.65}
+.guide-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.guide-card li{display:flex;gap:8px;align-items:flex-start}
+.guide-card li::before{content:'→';color:var(--verde-c);flex-shrink:0;font-weight:700}
+.guide-card strong{color:var(--texto)}
+.city-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:28px}
+.city-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;transition:all .25s;cursor:default}
+.city-card:hover{border-color:rgba(232,160,32,.35);transform:translateY(-3px)}
+.city-card .city-emoji{font-size:30px;margin-bottom:8px}
+.city-card h4{font-family:'Fraunces',serif;font-size:17px;font-weight:900;margin-bottom:2px}
+.city-card .city-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--texto-s);margin-bottom:10px}
+.city-card li{font-size:12.5px;color:var(--texto-s);padding:4px 0;border-bottom:1px solid var(--border);line-height:1.5;list-style:none}
+.city-card li:last-child{border:none}
+.guide-alert{background:linear-gradient(135deg,rgba(26,107,74,.3) 0%,rgba(45,155,110,.15) 100%);border:1px solid rgba(45,155,110,.28);border-radius:20px;padding:22px;display:flex;gap:16px;align-items:flex-start;margin-bottom:24px}
+.guide-alert .ga-icon{font-size:26px;flex-shrink:0}
+.guide-alert p{font-size:14px;line-height:1.7;color:var(--texto-s)}
+.guide-alert strong{color:var(--texto)}
+.cost-table{width:100%;border-collapse:collapse;margin-bottom:24px}
+.cost-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--texto-s);text-align:left;padding:8px 12px;border-bottom:2px solid var(--border)}
+.cost-table td{font-size:14px;padding:10px 12px;border-bottom:1px solid var(--border);color:var(--texto)}
+.cost-table td:last-child{font-weight:700;color:var(--dorado-c);text-align:right}
+.cost-table tr:last-child td{border:none;background:rgba(232,160,32,.05)}
+.resources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.resources-list a{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--texto);text-decoration:none;font-size:14px;transition:border-color .2s,background .2s}
+.resources-list a:hover{border-color:var(--dorado);background:rgba(232,160,32,.05)}
+.resources-list .r-icon{font-size:18px;flex-shrink:0}
+.resources-list .r-text{flex:1}
+.resources-list .r-arrow{color:var(--texto-s);font-size:12px}
+
+/* PASSPORT */
+.passport-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px}
+@media(max-width:580px){.passport-grid{grid-template-columns:1fr}}
+.passport-card{border-radius:24px;padding:28px 22px;position:relative;overflow:hidden;transition:transform .25s}
+.passport-card:hover{transform:scale(1.015)}
+.azul-card{background:linear-gradient(135deg,#1a4a7a 0%,#0d2d52 100%);color:#fff}
+.verde-card{background:linear-gradient(135deg,#1a6b4a 0%,#0d3d28 100%);color:#fff}
+.pc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;opacity:.65;margin-bottom:5px}
+.passport-card h3{font-family:'Fraunces',serif;font-size:22px;font-weight:900;margin-bottom:3px;line-height:1.2}
+.passport-card .pc-sub{font-size:13px;opacity:.7;margin-bottom:18px;line-height:1.55}
+.pc-emoji-bg{position:absolute;right:18px;top:18px;font-size:42px;opacity:.18}
+.pc-steps{list-style:none}
+.pc-steps li{font-size:13px;opacity:.84;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.1);display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.pc-steps li:last-child{border:none}
+.pc-steps .sn{width:19px;height:19px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.pc-diff{margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)}
+.d-label{font-size:10px;opacity:.55;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.d-bar{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.d-fill{height:100%;border-radius:3px;background:rgba(255,255,255,.6)}
+.d-text{font-size:12px;font-weight:600;opacity:.82;margin-top:5px}
+.llegada-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.llegada-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px 16px;text-align:center;transition:border-color .2s,transform .2s}
+.llegada-card:hover{border-color:rgba(45,155,110,.3);transform:translateY(-3px)}
+.llegada-card .l-emoji{font-size:30px;margin-bottom:8px}
+.llegada-card h4{font-family:'Fraunces',serif;font-size:15px;font-weight:700;margin-bottom:5px}
+.llegada-card p{font-size:12.5px;color:var(--texto-s);line-height:1.5}
+
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeO .2s ease}
+@keyframes fadeO{from{opacity:0}to{opacity:1}}
+.modal-box{background:var(--bg2);border:1px solid var(--border);border-radius:24px;width:100%;max-width:440px;padding:30px;animation:mIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mIn{from{opacity:0;transform:scale(.88) translateY(24px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-box h3{font-family:'Fraunces',serif;font-size:22px;font-weight:900;margin-bottom:4px}
+.modal-sub{font-size:14px;color:var(--texto-s);margin-bottom:22px;line-height:1.6}
+.modal-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--texto-s);margin-bottom:10px}
+.emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:22px}
+.emoji-opt{width:100%;aspect-ratio:1;border-radius:10px;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--bg3);border:2px solid transparent;transition:all .15s}
+.emoji-opt:hover{transform:scale(1.12);border-color:var(--dorado)}
+.emoji-opt.selected{border-color:var(--dorado);background:rgba(232,160,32,.15)}
+.color-swatches{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.color-swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .15s,border-color .15s;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.color-swatch:hover{transform:scale(1.15)}
+.color-swatch.selected{border-color:white}
+.color-custom{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.color-custom input[type=color]{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;background:none;padding:0;-webkit-appearance:none}
+.color-custom label{font-size:13px;color:var(--texto-s)}
+.modal-preview{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg3);border-radius:14px;margin-bottom:22px}
+.prev-avatar{width:50px;height:50px;border-radius:50%;font-size:24px;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.prev-info h4{font-family:'Fraunces',serif;font-size:17px;font-weight:900}
+.prev-info p{font-size:13px;color:var(--texto-s);margin-top:2px}
+.modal-actions{display:flex;gap:10px}
+.btn-secondary{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--texto);font-size:14px;font-weight:600;border-radius:999px;padding:12px;cursor:pointer;transition:border-color .2s}
+.btn-secondary:hover{border-color:var(--dorado)}
+.modal-actions .btn-primary{flex:1;padding:12px}
+.profile-claim-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.pco{background:var(--bg3);border:2px solid var(--border);border-radius:16px;padding:18px;text-align:center;cursor:pointer;transition:all .2s}
+.pco:hover:not(.taken){border-color:var(--dorado);background:rgba(232,160,32,.06)}
+.pco.selected{border-color:var(--dorado);background:rgba(232,160,32,.1)}
+.pco.taken{opacity:.4;cursor:not-allowed}
+.pco-emoji{font-size:34px;margin-bottom:7px}
+.pco-name{font-family:'Fraunces',serif;font-size:16px;font-weight:900}
+.pco-status{font-size:11px;color:var(--texto-s);margin-top:3px}
+.pco-status.claimed{color:#ff8a80}
+
+/* CONFETTI */
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998}
+
+/* RIPPLE */
+.ripple-wave{position:absolute;border-radius:50%;transform:scale(0);animation:rpl .6s linear forwards;background:rgba(232,160,32,.28);pointer-events:none}
+@keyframes rpl{to{transform:scale(4);opacity:0}}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:11px 20px;font-size:14px;font-weight:600;z-index:9000;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s;opacity:0;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.6)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* H3 HELPER */
+.sub-h3{font-family:'Fraunces',serif;font-size:21px;font-weight:900;margin:28px 0 14px}
+
+/* MOBILE */
+@media(max-width:640px){
+  .topbar-brand .brand-sub{display:none}
+  .race-info{width:68px}
+  .race-person-name{font-size:11px}
+  .race-section{padding:22px 16px 18px}
+  .section-page{padding:22px 16px 90px}
+  .tab-nav{position:fixed;bottom:0;top:auto;border-top:1px solid var(--border);border-bottom:none;background:rgba(13,13,13,.96);width:100%;justify-content:space-around;z-index:99}
+  .tab-btn{flex-direction:column;height:58px;padding:0 10px;font-size:11px;gap:2px;border-bottom:none;border-top:2px solid transparent}
+  .tab-btn.active{border-top-color:var(--dorado);border-bottom:none}
+  .tab-btn span:first-child{font-size:18px}
+  body{padding-bottom:0}
+  .toast{bottom:76px}
+}
+@media(min-width:641px){
+  .tab-nav{position:sticky;top:56px}
+}
 </style>
 </head>
 <body>
 
-<div class="progress-bar" id="progressBar"></div>
+<canvas id="confetti-canvas"></canvas>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-flags">🇲🇽 ✈️ 🇵🇹</div>
-  <p class="hero-eyebrow">El plan definitivo</p>
-  <h1 class="hero-title">La Gran<br><em>Aventura</em></h1>
-  <p class="hero-subtitle">De Xalapa a Europa — paso a paso, sin perderse nada</p>
-  <div class="hero-names">
-    <div class="name-pill">👩 Mamá</div>
-    <div class="name-pill">🧑 Hermano</div>
+<!-- SETUP SCREEN -->
+<div id="setup-screen" class="hidden">
+  <div class="setup-card">
+    <div style="font-size:48px;margin-bottom:4px">🔧</div>
+    <h2>Configurar Firebase</h2>
+    <p>Para activar el login con Google y la sincronización en tiempo real, crea un proyecto en Firebase y pega la configuración aquí.</p>
+    <ol class="setup-steps">
+      <li><span class="sn">1</span>Ve a <strong>console.firebase.google.com</strong> → crear proyecto nuevo</li>
+      <li><span class="sn">2</span>"Compilación" → <strong>Authentication → Método de acceso → Google → Habilitar</strong></li>
+      <li><span class="sn">3</span>"Compilación" → <strong>Realtime Database → Crear base de datos</strong> (elige modo prueba inicialmente)</li>
+      <li><span class="sn">4</span>Configuración del proyecto (⚙️) → "Tu aplicación" → <strong>Agregar app web (&lt;/&gt;)</strong></li>
+      <li><span class="sn">5</span>Copia el objeto <code>firebaseConfig</code> que aparece y pégalo abajo</li>
+    </ol>
+    <textarea class="setup-input" id="setup-config-input" placeholder='Pega aquí el objeto firebaseConfig:
+
+const firebaseConfig = {
+  apiKey: "AIza...",
+  authDomain: "mi-proyecto.firebaseapp.com",
+  databaseURL: "https://mi-proyecto-default-rtdb.firebaseio.com",
+  projectId: "mi-proyecto",
+  storageBucket: "mi-proyecto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123:web:abc"
+};'></textarea>
+    <button class="btn-primary" onclick="applySetupConfig()">
+      <span>🚀</span> Aplicar y conectar
+    </button>
   </div>
-  <div class="scroll-hint">
-    Desliza para ver el plan
-    <span class="scroll-arrow"></span>
+</div>
+
+<!-- TOPBAR -->
+<header class="topbar" id="topbar">
+  <div class="topbar-brand">
+    <span>🇵🇹</span>
+    <span class="brand-sub">La Gran Aventura</span>
   </div>
-</section>
-
-<!-- INTRO -->
-<section class="intro">
-  <div class="intro-inner fade-in-up">
-    <div class="section-tag">¿Por qué Portugal?</div>
-    <h2>El país más seguro de Europa, <em>con un plan claro para quedarse</em></h2>
-    <p>
-      Portugal es <strong>top 5 mundial en seguridad</strong>, el más barato de Europa occidental, y la única opción que les permite a las dos llegar con visa, trabajar desde el día uno, y tener un camino claro hacia el <strong>pasaporte europeo</strong> — sin renunciar al pasaporte mexicano.
-    </p>
+  <div class="topbar-right" id="auth-controls">
+    <button class="btn-signin" id="btn-signin" onclick="signIn()">
+      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.4 30.2 0 24 0 14.7 0 6.7 5.5 2.7 13.5l7.8 6C12.4 13.3 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.5-.8-3.1-.8-4.6s.3-3.1.8-4.6l-7.8-6C1 16.4 0 20.1 0 24s1 7.6 2.7 10.5l7.8-5.9z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.7 2.2-7.7 2.2-6.3 0-11.6-3.8-13.5-9.3l-7.8 5.9C6.7 42.5 14.7 48 24 48z"/></svg>
+      Entrar con Google
+    </button>
   </div>
-</section>
+</header>
 
-<!-- FINANZAS -->
-<section class="finanzas">
-  <div class="section-inner">
-    <div class="section-header fade-in-up">
-      <div class="section-tag verde">Sus números</div>
-      <h2>El dinero está. Los números cuadran.</h2>
+<!-- APP -->
+<div id="app">
+
+  <!-- RACE -->
+  <section class="race-section">
+    <div class="race-inner">
+      <h1 class="race-label">La carrera hacia <em>Portugal</em> 🇵🇹</h1>
+      <p class="race-sub">Progreso de cada quien en tiempo real — ¿quién va adelante?</p>
+      <div class="race-bars" id="race-bars"></div>
+      <div class="race-vs" id="race-vs"></div>
     </div>
-    <div class="money-grid">
-      <div class="money-card verde fade-in-up">
-        <div class="money-emoji">🏪</div>
-        <div class="money-label">Locales (seguros siempre)</div>
-        <div class="money-value">€950<span style="font-size:18px;font-weight:400;">/mes</span></div>
-        <div class="money-sub">$20,000 MXN — nunca se pierden</div>
-      </div>
-      <div class="money-card dorado fade-in-up">
-        <div class="money-emoji">🏠</div>
-        <div class="money-label">Rentas casa (si no venden)</div>
-        <div class="money-value">€950<span style="font-size:18px;font-weight:400;">/mes</span></div>
-        <div class="money-sub">$20,000 MXN adicionales</div>
-      </div>
-      <div class="money-card azul fade-in-up">
-        <div class="money-emoji">💰</div>
-        <div class="money-label">Capital inicial disponible</div>
-        <div class="money-value">€10,000</div>
-        <div class="money-sub">$200,000 MXN listos para usar</div>
-      </div>
-      <div class="money-card verde fade-in-up">
-        <div class="money-emoji">🇵🇹</div>
-        <div class="money-label">Mínimo D7 Portugal</div>
-        <div class="money-value">€1,196<span style="font-size:18px;font-weight:400;">/mes</span></div>
-        <div class="money-sub">Ellas tienen €1,900 ✅</div>
-      </div>
+  </section>
+
+  <!-- TABS -->
+  <nav class="tab-nav" id="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('ruta',this)">
+      <span>📅</span><span>Ruta</span><span class="tab-dot"></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('docs',this)">
+      <span>📄</span><span>Documentos</span><span class="tab-dot"></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('guia',this)">
+      <span>🗺️</span><span>Guía PT</span><span class="tab-dot"></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('pasaporte',this)">
+      <span>🎯</span><span>Pasaporte</span><span class="tab-dot"></span>
+    </button>
+  </nav>
+
+  <!-- RUTA -->
+  <div class="section-page active" id="section-ruta">
+    <div class="section-head reveal">
+      <div class="section-tag verde">Plan de acción</div>
+      <h2>Los próximos 6 meses</h2>
+      <p>Marquen cada paso conforme lo completen — el progreso se sincroniza en tiempo real para las dos.</p>
     </div>
-    <div class="alert-box fade-in-up">
-      <div class="alert-icon">✅</div>
-      <p>Con <strong>€1,900/mes de las rentas</strong> ya superan el requisito mínimo de la Visa D7 (€1,196/mes para dos personas). Y los <strong>€10,000 de capital inicial</strong> cubren prácticamente el único requisito bancario que faltaba (€10,440). El plan es financieramente viable <strong>sin vender la casa</strong>.</p>
-    </div>
+    <div id="timeline-container"></div>
   </div>
-</section>
 
-<!-- TIMELINE -->
-<section class="timeline-section">
-  <div class="section-inner">
-    <div class="section-header fade-in-up">
-      <div class="section-tag" style="background:var(--dorado);">Plan de acción</div>
-      <h2>Los próximos 6 meses — mes a mes</h2>
+  <!-- DOCS -->
+  <div class="section-page" id="section-docs">
+    <div class="section-head reveal">
+      <div class="section-tag rojo">Documentos</div>
+      <h2>Checklist completo antes de salir</h2>
+      <p>Haz click en el estado de cada documento para avanzarlo: <strong>Pendiente → En proceso → Listo ✅</strong>. Cualquiera puede actualizar el estado.</p>
     </div>
-
-    <div class="timeline">
-
-      <div class="tl-item">
-        <div class="tl-dot">
-          <span class="dot-emoji">📋</span>
-          <span class="dot-month">Jun</span>
-          <span class="dot-year">2026</span>
-        </div>
-        <div class="tl-content">
-          <span class="tl-urgency u-urgente">🔴 Empezar YA</span>
-          <h3>Apostillar todos los documentos</h3>
-          <ul class="tl-tasks">
-            <li>Título de Nutrición de mamá → apostillar en la SEP (tarda 3–4 semanas)</li>
-            <li>Plan de estudios oficial con sello de su universidad</li>
-            <li>Acta de nacimiento de mamá → Registro Civil apostillada</li>
-            <li>Acta de nacimiento del hermano → apostillada</li>
-            <li>Antecedentes penales de mamá → apostillar (PGR o SESNSP)</li>
-            <li>Certificado de preparatoria del hermano → SEP apostillado</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot">
-          <span class="dot-emoji">🏦</span>
-          <span class="dot-month">Jun</span>
-          <span class="dot-year">2026</span>
-        </div>
-        <div class="tl-content">
-          <span class="tl-urgency u-urgente">🔴 Empezar YA (en paralelo)</span>
-          <h3>Abrir cuenta bancaria en Portugal</h3>
-          <ul class="tl-tasks">
-            <li>Millennium BCP permite apertura remota desde México — hacerlo online</li>
-            <li>Depositar los €10,440 requeridos por la D7</li>
-            <li>Guardar extractos bancarios mexicanos de los últimos 3–6 meses (prueban los ingresos de renta)</li>
-            <li>Conseguir contratos de arrendamiento o escrituras de los locales (prueban el origen del ingreso)</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot">
-          <span class="dot-emoji">🔍</span>
-          <span class="dot-month">Jul</span>
-          <span class="dot-year">2026</span>
-        </div>
-        <div class="tl-content">
-          <span class="tl-urgency u-importante">🟡 Importante</span>
-          <h3>Preparar el expediente D7</h3>
-          <ul class="tl-tasks">
-            <li>Verificar vigencia de pasaportes (mínimo 6 meses después de la fecha de entrada a Portugal)</li>
-            <li>Contratar seguro médico privado internacional: Cigna, AXA o Allianz (~€50/mes por persona)</li>
-            <li>Reservar alojamiento en Portugal para el primer mes (Airbnb o similar — sirve como prueba de domicilio)</li>
-            <li>Descargar y llenar formulario de solicitud de visa D en vistos.mne.gov.pt</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot">
-          <span class="dot-emoji">🏛️</span>
-          <span class="dot-month">Ago</span>
-          <span class="dot-year">2026</span>
-        </div>
-        <div class="tl-content">
-          <span class="tl-urgency u-accion">🟢 Acción clave</span>
-          <h3>Cita en el Consulado de Portugal</h3>
-          <ul class="tl-tasks">
-            <li>Consulado de Portugal en CDMX: +52 55 5520-7897 — pedir cita con anticipación</li>
-            <li>Presentar expediente completo (pasaportes, formulario, seguro médico, extractos, documentos apostillados, alojamiento)</li>
-            <li>Tasa consular: ~€90 por persona (~€180 en total)</li>
-            <li>Proceso de aprobación: 2–3 meses — por eso hay que solicitarla en agosto</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot">
-          <span class="dot-emoji">🎒</span>
-          <span class="dot-month">Sep</span>
-          <span class="dot-year">2026</span>
-        </div>
-        <div class="tl-content">
-          <span class="tl-urgency u-accion">🟢 Preparar la mudanza</span>
-          <h3>Organizar la vida antes de partir</h3>
-          <ul class="tl-tasks">
-            <li>Decidir qué pasa con la casa de los departamentos (vender o dejar a alguien de confianza administrando)</li>
-            <li>Dejar instrucciones claras para que los locales sigan generando ingresos sin interrupciones</li>
-            <li>Hacer traducción jurada al portugués de los documentos principales</li>
-            <li>Investigar ciudades de Portugal (Braga, Coimbra, Setúbal — ver cuál les emociona más)</li>
-            <li>Buscar departamento permanente en Portugal para llegar con algo ya elegido</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot">
-          <span class="dot-emoji">✈️</span>
-          <span class="dot-month">Nov</span>
-          <span class="dot-year">2026</span>
-        </div>
-        <div class="tl-content">
-          <span class="tl-urgency u-salida">🔵 ¡La salida!</span>
-          <h3>Volar a Portugal antes de diciembre</h3>
-          <ul class="tl-tasks">
-            <li>Salir antes de diciembre para aprovechar los últimos meses con los ingresos completos ($100k MXN)</li>
-            <li>Llevar los documentos apostillados y el expediente completo en físico y digital</li>
-            <li>Vuelo directo CDMX → Lisboa (aprox. 10–11 hrs, aerolíneas: Iberia, TAP Portugal, Air Europa)</li>
-            <li>¡Empezar la aventura! 🎉</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
+    <div class="docs-grid" id="docs-container"></div>
   </div>
-</section>
 
-<!-- PASAPORTE -->
-<section class="pasaporte-section">
-  <div class="section-inner">
-    <div class="section-header fade-in-up">
+  <!-- GUIA -->
+  <div class="section-page" id="section-guia">
+    <div class="section-head reveal">
+      <div class="section-tag azul">La Guía Definitiva</div>
+      <h2>Todo lo que necesitan saber de Portugal</h2>
+      <p>Desde elegir ciudad hasta cuánto cuesta el pastel de nata. La guía completa para comenzar.</p>
+    </div>
+
+    <div class="guide-alert reveal">
+      <div class="ga-icon">🌟</div>
+      <p>Portugal es el <strong>país más seguro de Europa occidental</strong>, el de menor costo de vida, y el único que les permite a ambas llegar con visa, <strong>trabajar desde el día uno</strong>, y tener un camino claro hacia el pasaporte europeo — sin renunciar al mexicano.</p>
+    </div>
+
+    <h3 class="sub-h3 reveal">🏙️ ¿Qué ciudad elegir?</h3>
+    <div class="city-grid reveal">
+      <div class="city-card">
+        <div class="city-emoji">🌿</div>
+        <h4>Braga</h4>
+        <div class="city-tag">La recomendada</div>
+        <ul>
+          <li>Renta 1BR: <strong>€500–700</strong></li>
+          <li>Ciudad universitaria, joven, segura</li>
+          <li>50min de Porto, 3.5hrs de Lisboa</li>
+          <li>Comunidad latina activa</li>
+          <li>Clima suave, muchos parques</li>
+        </ul>
+      </div>
+      <div class="city-card">
+        <div class="city-emoji">🏔️</div>
+        <h4>Coimbra</h4>
+        <div class="city-tag">La académica</div>
+        <ul>
+          <li>Renta 1BR: <strong>€550–750</strong></li>
+          <li>Universidad más antigua de Portugal</li>
+          <li>Ideal si el hermano estudia allá</li>
+          <li>Muy accesible desde Lisboa y Porto</li>
+          <li>Arquitectura histórica impresionante</li>
+        </ul>
+      </div>
+      <div class="city-card">
+        <div class="city-emoji">🌊</div>
+        <h4>Setúbal</h4>
+        <div class="city-tag">Cerca de Lisboa</div>
+        <ul>
+          <li>Renta 1BR: <strong>€600–800</strong></li>
+          <li>40min de Lisboa en tren</li>
+          <li>Playa a 15 min, Parque Natural</li>
+          <li>Más tranquila, precios razonables</li>
+          <li>Ideal para quedarse largo plazo</li>
+        </ul>
+      </div>
+      <div class="city-card">
+        <div class="city-emoji">🌅</div>
+        <h4>Lisboa</h4>
+        <div class="city-tag">La capital</div>
+        <ul>
+          <li>Renta 1BR: <strong>€900–1,400</strong></li>
+          <li>Más oportunidades laborales</li>
+          <li>Vida cultural vibrante</li>
+          <li>Más caro pero el más conectado</li>
+          <li>Vuelo directo a CDMX (TAP)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-h3 reveal">💰 Costos de vida mensuales</h3>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:28px" class="reveal">
+      <table class="cost-table">
+        <thead><tr><th>Gasto</th><th>Ciudad media (Braga / Coimbra)</th></tr></thead>
+        <tbody>
+          <tr><td>🏠 Renta (2 recámaras)</td><td>€700–950</td></tr>
+          <tr><td>🛒 Supermercado (2 personas)</td><td>€200–300</td></tr>
+          <tr><td>🚌 Transporte público</td><td>€30–50</td></tr>
+          <tr><td>💡 Servicios (luz, agua, internet)</td><td>€80–120</td></tr>
+          <tr><td>🍽️ Comer fuera 2× semana</td><td>€80–120</td></tr>
+          <tr><td>📱 Teléfono móvil (por persona)</td><td>€15–25</td></tr>
+          <tr><td><strong>TOTAL cómodo para 2 personas</strong></td><td>€1,105–1,565</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="guide-grid reveal">
+      <div class="guide-card">
+        <h4>🗣️ Aprender portugués</h4>
+        <ul>
+          <li><strong>3–4 meses</strong> para conversación básica siendo hispanohablante</li>
+          <li>App Duolingo (gratis, 20min/día mínimo)</li>
+          <li>YouTube: "Cê Brasuca" y "Português com Anita"</li>
+          <li>Practicar <em>acento europeo</em>, no brasileño</li>
+          <li>Frases clave: "Com licença", "Obrigada", "Pode repetir, por favor?"</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h4>💼 Trabajo para Mamá</h4>
+        <ul>
+          <li>Con D7 puede trabajar desde el <strong>día uno</strong></li>
+          <li>Hostelería: alta demanda, contacto con gente</li>
+          <li>Tutorías de español online: €15–25/hr</li>
+          <li>Nutrición informal: asesorías privadas sin homologación</li>
+          <li>Homologación del título: proceso de 12–18 meses para ejercer formalmente</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h4>🎓 Educación para Hermano</h4>
+        <ul>
+          <li>Con certificado apostillado, la DGE asigna nivel equivalente</li>
+          <li>Cumple 18 en julio 2027 → puede entrar a la universidad ese año</li>
+          <li>Universidades públicas: €700–1,000/año para residentes</li>
+          <li>Cursos de portugués <strong>gratuitos</strong> para inmigrantes</li>
+          <li>Erasmus: estudiar gratis en otro país de Europa</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h4>🤝 Comunidad latina</h4>
+        <ul>
+          <li>Facebook: <strong>"Mexicanos en Portugal"</strong></li>
+          <li>WhatsApp grupos de la comunidad hispana por ciudad</li>
+          <li>Consulado mexicano en Lisboa para emergencias</li>
+          <li>Casa do Brasil en Lisboa — asesoría legal, eventos</li>
+          <li>Los portugueses <em>aman</em> a los latinoamericanos</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h4>🌡️ Clima y vida diaria</h4>
+        <ul>
+          <li>Invierno <strong>suave</strong>: 8–14°C, no nieva en el centro-sur</li>
+          <li>Verano seco: 24–30°C, muy soleado</li>
+          <li>Llueve más en el norte (Braga, Porto)</li>
+          <li>Almuerzo 1pm, cena 7–9pm</li>
+          <li>Domingos cerrado muchos comercios</li>
+          <li>Pastel de nata: €1.20, obligatorio diario ☕</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <h4>🏥 Salud y servicios</h4>
+        <ul>
+          <li>Sistema público SNS: accesible con NIF y residencia</li>
+          <li>Seguro médico privado para la visa: ~€50/mes/persona</li>
+          <li>Farmacias en cada esquina, abiertas hasta las 10pm</li>
+          <li>Médico de cabecera asignado por el centro de salud local</li>
+          <li>Emergencias: <strong>112</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-h3 reveal">🔗 Recursos esenciales</h3>
+    <ul class="resources-list reveal">
+      <li><a href="https://vistos.mne.gov.pt" target="_blank" rel="noopener">
+        <span class="r-icon">🛂</span>
+        <span class="r-text"><strong>vistos.mne.gov.pt</strong> — Formulario oficial de visa D7 y toda la info del consulado</span>
+        <span class="r-arrow">↗</span>
+      </a></li>
+      <li><a href="https://www.aima.gov.pt" target="_blank" rel="noopener">
+        <span class="r-icon">🪪</span>
+        <span class="r-text"><strong>aima.gov.pt</strong> — AIMA: registro de residencia al llegar a Portugal</span>
+        <span class="r-arrow">↗</span>
+      </a></li>
+      <li><a href="https://www.dge.mec.pt" target="_blank" rel="noopener">
+        <span class="r-icon">🎓</span>
+        <span class="r-text"><strong>dge.mec.pt</strong> — Direção-Geral da Educação: inscribir al hermano al sistema escolar</span>
+        <span class="r-arrow">↗</span>
+      </a></li>
+      <li><a href="https://www.millenniumbcp.pt" target="_blank" rel="noopener">
+        <span class="r-icon">🏦</span>
+        <span class="r-text"><strong>millenniumbcp.pt</strong> — Millennium BCP: banco con apertura remota desde México</span>
+        <span class="r-arrow">↗</span>
+      </a></li>
+      <li><a href="https://www.sep.gob.mx" target="_blank" rel="noopener">
+        <span class="r-icon">📋</span>
+        <span class="r-text"><strong>sep.gob.mx</strong> — SEP: apostillar el título universitario de Nutrición</span>
+        <span class="r-arrow">↗</span>
+      </a></li>
+      <li><a href="https://www.idealista.pt" target="_blank" rel="noopener">
+        <span class="r-icon">🏠</span>
+        <span class="r-text"><strong>idealista.pt</strong> — El portal inmobiliario más grande de Portugal para buscar departamento</span>
+        <span class="r-arrow">↗</span>
+      </a></li>
+    </ul>
+  </div>
+
+  <!-- PASAPORTE -->
+  <div class="section-page" id="section-pasaporte">
+    <div class="section-head reveal">
       <div class="section-tag azul">El objetivo final</div>
       <h2>Dos caminos al pasaporte europeo</h2>
+      <p>No hay que elegir ahora. Se activan las dos opciones en paralelo y a los 6–12 meses en Portugal se decide cuál ruta está más abierta.</p>
     </div>
-    <div class="passport-grid">
 
-      <div class="passport-card opcion-a fade-in-up">
-        <span class="pc-emoji">🇪🇸</span>
+    <div class="passport-grid reveal">
+      <div class="passport-card azul-card">
+        <span class="pc-emoji-bg">🇪🇸</span>
         <div class="pc-label">Opción A — La más rápida</div>
-        <h3>Pasaporte Español en ~4 años</h3>
-        <p class="pc-sub">Portugal como base → mudarse a España → 2 años de residencia → nationalidad española</p>
+        <h3>Pasaporte Español</h3>
+        <p class="pc-sub">~4 años vía Portugal + España. Mexicanas tienen derecho por hispanidad: <strong>solo 2 años</strong> de residencia en España.</p>
         <ul class="pc-steps">
-          <li><span class="step-num">1</span>Llegan a Portugal con D7 (fin 2026)</li>
-          <li><span class="step-num">2</span>Se establecen 1–2 años en Portugal</li>
-          <li><span class="step-num">3</span>Se mudan a España (~2028) con nuevo permiso</li>
-          <li><span class="step-num">4</span>2 años de residencia legal en España</li>
-          <li><span class="step-num">5</span>Solicitan nationalidad española (~2030)</li>
-          <li><span class="step-num">6</span>Pasaporte español aprobado (~2031) 🎉</li>
+          <li><span class="sn">1</span>Llegan a Portugal con D7 (fin 2026)</li>
+          <li><span class="sn">2</span>1–2 años establecidas en Portugal</li>
+          <li><span class="sn">3</span>Se mudan a España (~2028) con nuevo permiso</li>
+          <li><span class="sn">4</span>2 años de residencia legal en España</li>
+          <li><span class="sn">5</span>Solicitan nationalidad española (~2030)</li>
+          <li><span class="sn">6</span>🎉 Pasaporte español aprobado (~2031)</li>
         </ul>
-        <div class="pc-dificultad">
+        <div class="pc-diff">
           <div class="d-label">Dificultad</div>
-          <div class="d-bar"><div class="d-fill" style="width:40%;"></div></div>
+          <div class="d-bar"><div class="d-fill" style="width:40%"></div></div>
           <div class="d-text">Media-baja — proceso rutinario para mexicanas ✅</div>
         </div>
-        <p style="font-size:12px;opacity:0.6;margin-top:10px;">✨ Conservan pasaporte mexicano (doble nationalidad)</p>
+        <p style="font-size:12px;opacity:.6;margin-top:10px">✨ Conservan el pasaporte mexicano (doble nationalidad)</p>
       </div>
 
-      <div class="passport-card opcion-b fade-in-up">
-        <span class="pc-emoji">🇵🇹</span>
+      <div class="passport-card verde-card">
+        <span class="pc-emoji-bg">🇵🇹</span>
         <div class="pc-label">Opción B — La más elegante</div>
-        <h3>Pasaporte Portugués vía hermano</h3>
-        <p class="pc-sub">Hermano estudia en Portugal → ciudadanía anticipada → mamá por vía familiar</p>
+        <h3>Pasaporte Portugués</h3>
+        <p class="pc-sub">Hermano estudia en Portugal → ciudadanía anticipada → mamá por vía familiar.</p>
         <ul class="pc-steps">
-          <li><span class="step-num">1</span>Llegan a Portugal (fin 2026)</li>
-          <li><span class="step-num">2</span>Hermano entra al sistema educativo portugués</li>
-          <li><span class="step-num">3</span>Aprende portugués (3–4 meses para hispanohablante)</li>
-          <li><span class="step-num">4</span>Hermano cumple 18 (jul 2027), entra a universidad</li>
-          <li><span class="step-num">5</span>Con 1+ año en sistema PT, consultar ciudadanía anticipada</li>
-          <li><span class="step-num">6</span>Hermano con pasaporte PT → mamá por vía familiar 🎉</li>
+          <li><span class="sn">1</span>Llegan a Portugal (fin 2026)</li>
+          <li><span class="sn">2</span>Hermano entra al sistema educativo PT</li>
+          <li><span class="sn">3</span>Aprende portugués en 3–4 meses</li>
+          <li><span class="sn">4</span>Hermano cumple 18 (jul 2027), entra a universidad</li>
+          <li><span class="sn">5</span>Con 1+ año en sistema PT → consultar ciudadanía anticipada</li>
+          <li><span class="sn">6</span>🎉 Hermano con PT → mamá por vía familiar</li>
         </ul>
-        <div class="pc-dificultad">
+        <div class="pc-diff">
           <div class="d-label">Dificultad</div>
-          <div class="d-bar"><div class="d-fill" style="width:55%;"></div></div>
+          <div class="d-bar"><div class="d-fill" style="width:55%"></div></div>
           <div class="d-text">Media — confirmar ruta exacta con abogado al llegar</div>
         </div>
-        <p style="font-size:12px;opacity:0.6;margin-top:10px;">✨ Pasaporte portugués + mexicano (los dos se guardan)</p>
+        <p style="font-size:12px;opacity:.6;margin-top:10px">✨ Pasaporte PT + mexicano (los dos se guardan)</p>
       </div>
-
     </div>
-    <div class="alert-box fade-in-up" style="max-width:900px;margin:20px auto 0;background:var(--texto);">
-      <div class="alert-icon">💡</div>
-      <p>Lo inteligente es <strong>activar las dos opciones en paralelo</strong>. No hay que elegir ahora — se llega a Portugal con la D7 y a los 6–12 meses viviendo allá, se decide cuál ruta al pasaporte está más abierta. Las dos son reales.</p>
+
+    <div class="guide-alert reveal" style="background:linear-gradient(135deg,rgba(26,74,122,.3) 0%,rgba(26,107,74,.15) 100%);border-color:rgba(26,74,122,.35)">
+      <div class="ga-icon">💡</div>
+      <p>Lo inteligente es <strong>activar las dos opciones en paralelo</strong>. No hay que elegir ahora — se llega a Portugal con la D7 y a los 6–12 meses viviendo allá, se decide cuál ruta al pasaporte está más abierta. Las dos son reales y alcanzables.</p>
     </div>
-  </div>
-</section>
 
-<!-- DOCS -->
-<section class="docs-section">
-  <div class="section-inner">
-    <div class="section-header fade-in-up">
-      <div class="section-tag rojo">Documentos</div>
-      <h2>El checklist completo antes de salir</h2>
-    </div>
-    <div class="docs-grid">
-
-      <div class="doc-card fade-in-up">
-        <h4>📜 Apostillar en México</h4>
-        <ul class="doc-list">
-          <li>Título de Nutrición de mamá (SEP)</li>
-          <li>Plan de estudios oficial (universidad)</li>
-          <li>Acta de nacimiento de mamá</li>
-          <li>Acta de nacimiento del hermano</li>
-          <li>Antecedentes penales (PGR/SESNSP)</li>
-          <li>Certificado de preparatoria del hermano</li>
-        </ul>
-      </div>
-
-      <div class="doc-card fade-in-up">
-        <h4>🏦 Finanzas y banco</h4>
-        <ul class="doc-list">
-          <li>Cuenta bancaria en Portugal (Millennium BCP remota)</li>
-          <li>Depositar €10,440 en cuenta PT</li>
-          <li>Extractos bancarios 3–6 meses (rentas)</li>
-          <li>Contratos de arrendamiento / escrituras</li>
-          <li>Pasaportes vigentes (mín. 6 meses)</li>
-        </ul>
-      </div>
-
-      <div class="doc-card fade-in-up">
-        <h4>🏛️ Para la visa D7</h4>
-        <ul class="doc-list">
-          <li>Formulario visa D (vistos.mne.gov.pt)</li>
-          <li>Seguro médico privado internacional</li>
-          <li>Prueba de alojamiento en Portugal</li>
-          <li>Tasa consular ~€90/persona</li>
-          <li>Cita en Consulado Portugal CDMX</li>
-        </ul>
-      </div>
-
-      <div class="doc-card fade-in-up">
-        <h4>🌍 Traducciones juradas</h4>
-        <ul class="doc-list">
-          <li>Todos los documentos apostillados → traducir al portugués</li>
-          <li>Título de Nutrición traducido (para homologación futura)</li>
-          <li>Plan de estudios traducido</li>
-          <li>Contratar traductor oficial español-portugués certificado</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- LLEGADA -->
-<section class="llegada-section">
-  <div class="section-inner">
-    <div class="section-header fade-in-up">
-      <div class="section-tag" style="background:var(--dorado);">Al llegar a Portugal</div>
-      <h2>Los primeros pasos en tierra portuguesa</h2>
-    </div>
-    <div class="llegada-grid">
-      <div class="llegada-card fade-in-up">
+    <h3 class="sub-h3 reveal">✈️ Al llegar a Portugal — primeros pasos</h3>
+    <div class="llegada-grid reveal">
+      <div class="llegada-card">
         <div class="l-emoji">🪪</div>
         <h4>Registrarse en AIMA</h4>
         <p>Dentro de los primeros días hábiles. Aquí obtienen el Título de Residencia — el documento más importante.</p>
       </div>
-      <div class="llegada-card fade-in-up">
+      <div class="llegada-card">
         <div class="l-emoji">🔢</div>
         <h4>Obtener el NIF</h4>
-        <p>Número de identificación fiscal portugués. Necesario para trabajar, abrir cuenta local y firmar contratos.</p>
+        <p>Número de Identificación Fiscal. Necesario para trabajar, abrir cuenta local y firmar contratos.</p>
       </div>
-      <div class="llegada-card fade-in-up">
+      <div class="llegada-card">
         <div class="l-emoji">🏫</div>
-        <h4>Inscribir al hermano</h4>
-        <p>Con el certificado de preparatoria apostillado, la Direção-Geral da Educação asigna grado escolar.</p>
+        <h4>Escuela / Universidad</h4>
+        <p>Con el certificado apostillado, la DGE asigna nivel equivalente. Inscripción inmediata para el hermano.</p>
       </div>
-      <div class="llegada-card fade-in-up">
+      <div class="llegada-card">
         <div class="l-emoji">💼</div>
         <h4>Mamá empieza a trabajar</h4>
-        <p>Con D7 puede trabajar tiempo completo desde el día uno. Hostelería, enseñanza de español o nutrición informal.</p>
+        <p>Con D7 puede trabajar tiempo completo desde el día uno. Hostelería, español o nutrición informal.</p>
       </div>
-      <div class="llegada-card fade-in-up">
+      <div class="llegada-card">
         <div class="l-emoji">⚖️</div>
         <h4>Consulta con abogado</h4>
-        <p>Primera consulta con abogado de inmigración portugués para confirmar ruta de ciudadanía del hermano (€100–200).</p>
+        <p>Primera consulta con abogado de inmigración portugués para confirmar ruta de ciudadanía. (~€150)</p>
       </div>
-      <div class="llegada-card fade-in-up">
+      <div class="llegada-card">
         <div class="l-emoji">🎓</div>
-        <h4>Iniciar homologación del título</h4>
-        <p>Solicitar reconocimiento del título de Nutrición ante el Ministerio de Educación portugués. Tarda 12–15 meses.</p>
+        <h4>Homologación del título</h4>
+        <p>Iniciar reconocimiento del título de Nutrición ante el Ministerio de Educación PT. 12–15 meses.</p>
       </div>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <span class="footer-emoji">🌊</span>
-  <h2>El mundo está<br><em>esperándolas</em></h2>
-  <div class="footer-divider"></div>
-  <p>Portugal las espera con clima mediterráneo, gente cálida, y el camino más claro de Europa para construir una vida nueva — con pasaporte europeo incluido.</p>
-  <p class="footer-small">Plan elaborado con toda la investigación disponible a mayo 2026. Siempre confirmar requisitos vigentes con el Consulado de Portugal y un abogado de inmigración.</p>
-</footer>
+</div><!-- /app -->
+
+<!-- MODAL AVATAR -->
+<div class="modal-overlay hidden" id="avatar-modal">
+  <div class="modal-box">
+    <h3>Personalizar avatar</h3>
+    <p class="modal-sub" id="avatar-modal-sub">Elige tu emoji y color para la carrera 🏁</p>
+    <div class="modal-preview">
+      <div class="prev-avatar" id="prev-avatar-display" style="background:#e8a020">🌸</div>
+      <div class="prev-info">
+        <h4 id="prev-name-display">Tu perfil</h4>
+        <p id="prev-role-display">Vista previa del avatar</p>
+      </div>
+    </div>
+    <div class="modal-section-label">Elige tu emoji</div>
+    <div class="emoji-grid" id="emoji-grid"></div>
+    <div class="modal-section-label">Color de tu barra</div>
+    <div class="color-swatches" id="color-swatches"></div>
+    <div class="color-custom">
+      <input type="color" id="custom-color-picker" value="#e8a020" oninput="onCustomColor(this.value)">
+      <label>Color personalizado</label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeAvatarModal()">Cancelar</button>
+      <button class="btn-primary" onclick="saveAvatar()"><span>💾</span> Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PROFILE CLAIM -->
+<div class="modal-overlay hidden" id="profile-modal">
+  <div class="modal-box">
+    <h3>¿Quién eres tú? 👋</h3>
+    <p class="modal-sub">Elige tu perfil para poder marcar tus avances. Solo puedes reclamar un perfil que esté libre.</p>
+    <div class="profile-claim-grid" id="profile-claim-grid"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeProfileModal()">Solo ver</button>
+      <button class="btn-primary" id="btn-claim-profile" onclick="claimProfile()" disabled><span>✅</span> Reclamar perfil</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-  // Progress bar
-  window.addEventListener('scroll', () => {
-    const bar = document.getElementById('progressBar');
-    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    bar.style.width = scrolled + '%';
+// ══════════════════════════════════════════════════════════
+//  FIREBASE CONFIG — reemplazar con el tuyo
+// ══════════════════════════════════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey:"YOUR_API_KEY",
+  authDomain:"YOUR_PROJECT.firebaseapp.com",
+  databaseURL:"https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId:"YOUR_PROJECT",
+  storageBucket:"YOUR_PROJECT.appspot.com",
+  messagingSenderId:"YOUR_SENDER_ID",
+  appId:"YOUR_APP_ID"
+};
+
+// ══════════════════════════════════════════════════════════
+//  DATOS — Checklist completo
+// ══════════════════════════════════════════════════════════
+const TIMELINE_GROUPS = [
+  { id:'jun-ap', month:'Jun 2026', emoji:'📋', urgency:'urgente',
+    title:'Apostillar todos los documentos',
+    note:'Tarda 3–4 semanas por documento. Empezar en paralelo.',
+    items:[
+      {id:'ja1',text:'Título de Nutrición de mamá → apostillar en la SEP',note:'Ir al módulo SEP de apostillas o tramitar en sep.gob.mx',who:'mama'},
+      {id:'ja2',text:'Plan de estudios oficial con sello de la universidad',note:'Solicitar en el Dpto. Escolar de la universidad de mamá',who:'mama'},
+      {id:'ja3',text:'Acta de nacimiento de mamá → Registro Civil apostillada',who:'mama'},
+      {id:'ja4',text:'Acta de nacimiento del hermano → apostillada',who:'hermano'},
+      {id:'ja5',text:'Antecedentes penales de mamá → apostillar (PGR o SESNSP)',note:'sesnsp.gob.mx — se tramita online',who:'mama'},
+      {id:'ja6',text:'Certificado de preparatoria del hermano → SEP apostillado',who:'hermano'},
+    ]
+  },
+  { id:'jun-bank', month:'Jun 2026', emoji:'🏦', urgency:'urgente',
+    title:'Abrir cuenta bancaria en Portugal',
+    note:'Millennium BCP permite apertura 100% remota desde México.',
+    items:[
+      {id:'jb1',text:'Millennium BCP: apertura remota online',note:'millenniumbcp.pt — proceso para no residentes',who:'shared'},
+      {id:'jb2',text:'Depositar los €10,440 requeridos para la D7',who:'shared'},
+      {id:'jb3',text:'Guardar extractos bancarios de los últimos 3–6 meses',note:'Prueban los ingresos de renta ante el consulado',who:'shared'},
+      {id:'jb4',text:'Conseguir contratos de arrendamiento o escrituras de los locales',note:'Prueban el origen del ingreso pasivo',who:'shared'},
+    ]
+  },
+  { id:'jul-d7', month:'Jul 2026', emoji:'🔍', urgency:'importante',
+    title:'Preparar el expediente D7',
+    items:[
+      {id:'jul1',text:'Verificar vigencia de pasaportes',note:'Mínimo 6 meses después de la fecha de entrada a Portugal',who:'shared'},
+      {id:'jul2',text:'Contratar seguro médico privado internacional',note:'Cigna, AXA o Allianz — aprox €50/mes por persona',who:'shared'},
+      {id:'jul3',text:'Reservar alojamiento en Portugal para el primer mes',note:'Airbnb o Booking — sirve como prueba de domicilio para el consulado',who:'shared'},
+      {id:'jul4',text:'Descargar y llenar formulario de solicitud de visa D',note:'vistos.mne.gov.pt',who:'shared'},
+    ]
+  },
+  { id:'ago-consulado', month:'Ago 2026', emoji:'🏛️', urgency:'accion',
+    title:'Cita en el Consulado de Portugal',
+    note:'Proceso tarda 2–3 meses → solicitar en agosto para llegar en noviembre.',
+    items:[
+      {id:'ago1',text:'Pedir cita en el Consulado de Portugal en CDMX',note:'Tel: +52 55 5520-7897 — pedir con anticipación',who:'shared'},
+      {id:'ago2',text:'Presentar expediente completo en la cita',note:'Pasaportes + formulario + seguro + extractos + docs apostillados + alojamiento',who:'shared'},
+      {id:'ago3',text:'Pagar tasa consular (~€90/persona, ~€180 total)',who:'shared'},
+    ]
+  },
+  { id:'sep-mudanza', month:'Sep 2026', emoji:'🎒', urgency:'accion',
+    title:'Organizar la vida antes de partir',
+    items:[
+      {id:'sep1',text:'Decidir qué pasa con la casa de departamentos',note:'Vender o dejar a alguien de confianza administrando',who:'shared'},
+      {id:'sep2',text:'Dejar instrucciones para que los locales sigan generando ingresos',who:'shared'},
+      {id:'sep3',text:'Hacer traducciones juradas al portugués de los documentos principales',note:'Contratar traductor oficial español-portugués certificado',who:'shared'},
+      {id:'sep4',text:'Investigar ciudades de Portugal (Braga, Coimbra, Setúbal)',note:'Ver la sección Guía PT de esta app',who:'shared'},
+      {id:'sep5',text:'Buscar departamento permanente en Portugal',note:'idealista.pt, Uniplaces.com — llegar con algo ya elegido',who:'shared'},
+    ]
+  },
+  { id:'nov-salida', month:'Nov 2026', emoji:'✈️', urgency:'salida',
+    title:'¡Volar a Portugal!',
+    note:'Salir antes de diciembre para aprovechar ingresos completos.',
+    items:[
+      {id:'nov1',text:'Comprar vuelos CDMX → Lisboa',note:'Iberia, TAP Portugal, Air Europa — aprox 10–11hrs directos',who:'shared'},
+      {id:'nov2',text:'Llevar todos los documentos apostillados en físico y digital (USB/nube)',who:'shared'},
+      {id:'nov3',text:'¡Empezar la aventura! 🎉 Aterrizar en Portugal',who:'shared'},
+    ]
+  }
+];
+
+const DOCS_GROUPS = [
+  { title:'📜 Apostillar en México', items:[
+    {id:'da1',text:'Título de Nutrición (SEP)',who:'mama'},
+    {id:'da2',text:'Plan de estudios oficial (universidad)',who:'mama'},
+    {id:'da3',text:'Acta de nacimiento de mamá',who:'mama'},
+    {id:'da4',text:'Acta de nacimiento del hermano',who:'hermano'},
+    {id:'da5',text:'Antecedentes penales (PGR/SESNSP)',who:'mama'},
+    {id:'da6',text:'Certificado de preparatoria del hermano',who:'hermano'},
+  ]},
+  { title:'🏦 Finanzas y banco', items:[
+    {id:'db1',text:'Cuenta bancaria en Portugal (Millennium BCP remota)',who:'shared'},
+    {id:'db2',text:'Depositar €10,440 en cuenta PT',who:'shared'},
+    {id:'db3',text:'Extractos bancarios 3–6 meses (rentas)',who:'shared'},
+    {id:'db4',text:'Contratos de arrendamiento / escrituras',who:'shared'},
+    {id:'db5',text:'Pasaportes vigentes (mín. 6 meses desde entrada)',who:'shared'},
+  ]},
+  { title:'🏛️ Para la visa D7', items:[
+    {id:'dc1',text:'Formulario visa D (vistos.mne.gov.pt)',who:'shared'},
+    {id:'dc2',text:'Seguro médico privado internacional',who:'shared'},
+    {id:'dc3',text:'Prueba de alojamiento en Portugal',who:'shared'},
+    {id:'dc4',text:'Tasa consular ~€90/persona',who:'shared'},
+    {id:'dc5',text:'Cita en Consulado Portugal CDMX',who:'shared'},
+  ]},
+  { title:'🌍 Traducciones juradas', items:[
+    {id:'dd1',text:'Todos los docs apostillados → traducir al portugués',who:'shared'},
+    {id:'dd2',text:'Título de Nutrición traducido (para homologación futura)',who:'mama'},
+    {id:'dd3',text:'Plan de estudios traducido',who:'mama'},
+    {id:'dd4',text:'Contratar traductor oficial español-portugués certificado',who:'shared'},
+  ]},
+  { title:'✈️ Al llegar a Portugal', items:[
+    {id:'de1',text:'Registrarse en AIMA (título de residencia)',who:'shared'},
+    {id:'de2',text:'Obtener NIF (número fiscal)',who:'shared'},
+    {id:'de3',text:'Inscribir al hermano en sistema escolar PT',who:'hermano'},
+    {id:'de4',text:'Mamá inicia búsqueda de trabajo',who:'mama'},
+    {id:'de5',text:'Consulta con abogado de inmigración',who:'shared'},
+    {id:'de6',text:'Iniciar homologación del título de Nutrición',who:'mama'},
+  ]}
+];
+
+const PROFILE_DEFAULTS = {
+  mama:    { label:'Mamá',    emoji:'🌸', color:'#e8a020' },
+  hermano: { label:'Hermano', emoji:'⚡', color:'#2d9b6e' }
+};
+
+const EMOJI_OPTIONS = ['🌸','⚡','🦋','🌙','🌟','🦁','🐬','🌊','🍀','🎯','🚀','🦊','🎸','🌺','🦅','🐉','🏆','🌈','💎','🦋','🎭','🌻','🐺','🔥'];
+const COLOR_PRESETS = ['#e8a020','#2d9b6e','#c0392b','#1a4a7a','#9b59b6','#e74c3c','#16a085','#f39c12','#e91e63','#00bcd4','#8bc34a','#ff6b35'];
+
+// ══════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════
+let db, auth, currentUser=null, myProfile=null;
+let checksData = {mama:{},hermano:{}};
+let avatarsData = { mama:{...PROFILE_DEFAULTS.mama}, hermano:{...PROFILE_DEFAULTS.hermano} };
+let claimsData  = {mama:null,hermano:null};
+let lastActivity = {mama:null,hermano:null};
+let statusData  = {};
+let tempEmoji='🌸', tempColor='#e8a020', editingProfile=null;
+let selectedClaimProfile=null;
+
+// ══════════════════════════════════════════════════════════
+//  FIREBASE
+// ══════════════════════════════════════════════════════════
+function initFirebase(config) {
+  try {
+    firebase.initializeApp(config);
+    db   = firebase.database();
+    auth = firebase.auth();
+    auth.onAuthStateChanged(onAuth);
+    listenAll();
+    document.getElementById('setup-screen').classList.add('hidden');
+    initAnimations();
+  } catch(e) {
+    console.error(e);
+    showToast('❌ Error en la configuración de Firebase');
+  }
+}
+
+function isConfigured() {
+  return FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY';
+}
+
+function applySetupConfig() {
+  const raw = document.getElementById('setup-config-input').value;
+  const m = raw.match(/\{[\s\S]*\}/);
+  if (!m) { showToast('⚠️ No se encontró el objeto'); return; }
+  try {
+    // eslint-disable-next-line no-eval
+    const cfg = eval('(' + m[0] + ')');
+    if (!cfg.apiKey || !cfg.databaseURL) throw new Error('missing fields');
+    localStorage.setItem('fb_config', JSON.stringify(cfg));
+    Object.assign(FIREBASE_CONFIG, cfg);
+    initFirebase(cfg);
+  } catch(e) {
+    showToast('❌ Formato inválido — verifica el objeto');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════════════════
+function signIn() {
+  const p = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(p).catch(() => showToast('Error al iniciar sesión'));
+}
+function signOut() { auth.signOut(); }
+
+function onAuth(user) {
+  currentUser = user;
+  if (user) {
+    const uid = user.uid;
+    myProfile = claimsData.mama===uid ? 'mama' : claimsData.hermano===uid ? 'hermano' : null;
+    if (!myProfile) setTimeout(showProfileModal, 700);
+  } else {
+    myProfile = null;
+  }
+  renderAuthControls();
+  renderAll();
+}
+
+function renderAuthControls() {
+  const ctrl = document.getElementById('auth-controls');
+  if (!currentUser) {
+    ctrl.innerHTML = `<button class="btn-signin" onclick="signIn()">
+      <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.4 30.2 0 24 0 14.7 0 6.7 5.5 2.7 13.5l7.8 6C12.4 13.3 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 7.1-10 7.1-17z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.5-.8-3.1-.8-4.6s.3-3.1.8-4.6l-7.8-6C1 16.4 0 20.1 0 24s1 7.6 2.7 10.5l7.8-5.9z"/><path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.7 2.2-7.7 2.2-6.3 0-11.6-3.8-13.5-9.3l-7.8 5.9C6.7 42.5 14.7 48 24 48z"/></svg>
+      Entrar con Google</button>`;
+    return;
+  }
+  const av = myProfile ? avatarsData[myProfile] : {};
+  const emoji = av.emoji || '👤';
+  const color = av.color || '#555';
+  const role  = myProfile ? PROFILE_DEFAULTS[myProfile].label : 'Solo viendo';
+  ctrl.innerHTML = `
+    <div class="user-chip" onclick="openAvatarModal()">
+      <div class="chip-avatar" style="background:${color}">${emoji}</div>
+      <div>
+        <div class="chip-name">${currentUser.displayName?.split(' ')[0] || 'Tú'}</div>
+        <div class="chip-role">${role}</div>
+      </div>
+    </div>
+    <button class="btn-signout" onclick="signOut()">Salir</button>`;
+}
+
+// ══════════════════════════════════════════════════════════
+//  LISTENERS
+// ══════════════════════════════════════════════════════════
+function listenAll() {
+  db.ref('checks').on('value', s => {
+    const d = s.val() || {};
+    checksData = {mama:d.mama||{}, hermano:d.hermano||{}};
+    renderAll();
   });
+  db.ref('avatars').on('value', s => {
+    const d = s.val() || {};
+    avatarsData.mama    = {...PROFILE_DEFAULTS.mama,    ...(d.mama    ||{})};
+    avatarsData.hermano = {...PROFILE_DEFAULTS.hermano, ...(d.hermano ||{})};
+    renderRace(); renderAuthControls();
+  });
+  db.ref('claims').on('value', s => {
+    claimsData = s.val() || {mama:null,hermano:null};
+    if (currentUser) {
+      const uid = currentUser.uid;
+      myProfile = claimsData.mama===uid ? 'mama' : claimsData.hermano===uid ? 'hermano' : null;
+      renderAuthControls(); renderTimeline(); renderDocs();
+    }
+  });
+  db.ref('lastActivity').on('value', s => {
+    lastActivity = s.val() || {mama:null,hermano:null};
+    renderRace();
+  });
+  db.ref('status').on('value', s => {
+    statusData = s.val() || {};
+    renderDocs();
+  });
+}
 
-  // Intersection Observer for animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+// ══════════════════════════════════════════════════════════
+//  PROGRESS
+// ══════════════════════════════════════════════════════════
+function getAllItems(profile) {
+  const ids=[];
+  TIMELINE_GROUPS.forEach(g=>g.items.forEach(it=>{ if(it.who===profile||it.who==='shared') ids.push(it.id); }));
+  return ids;
+}
+function getProgress(profile) {
+  const all=getAllItems(profile), checks=checksData[profile]||{};
+  const done=all.filter(id=>checks[id]).length;
+  return all.length ? Math.round(done/all.length*100) : 0;
+}
+function getGroupProgress(gid, profile) {
+  const g=TIMELINE_GROUPS.find(x=>x.id===gid);
+  if (!g) return {done:0,total:0};
+  const items=g.items.filter(it=>it.who===profile||it.who==='shared');
+  const checks=checksData[profile]||{};
+  return {done:items.filter(it=>checks[it.id]).length, total:items.length};
+}
+
+// ══════════════════════════════════════════════════════════
+//  RENDER RACE
+// ══════════════════════════════════════════════════════════
+function renderRace() {
+  const container=document.getElementById('race-bars');
+  const vsEl=document.getElementById('race-vs');
+  const pm=getProgress('mama'), ph=getProgress('hermano');
+  const am=avatarsData.mama, ah=avatarsData.hermano;
+  container.innerHTML = raceRow('mama',pm,am) + raceRow('hermano',ph,ah);
+  const diff=pm-ph;
+  if (pm===ph&&pm>0) { vsEl.textContent='¡Empate! Van exactamente igual 🤝'; vsEl.className='race-vs live'; }
+  else if (diff>0)   { vsEl.textContent=`${am.emoji} ${am.label||'Mamá'} va adelante por ${diff}% 🏆`; vsEl.className='race-vs live'; }
+  else if (diff<0)   { vsEl.textContent=`${ah.emoji} ${ah.label||'Hermano'} va adelante por ${Math.abs(diff)}% 🏆`; vsEl.className='race-vs live'; }
+  else               { vsEl.textContent='La aventura está por comenzar ✈️'; vsEl.className='race-vs'; }
+  requestAnimationFrame(()=>{ document.querySelectorAll('.race-fill').forEach(el=>{ el.style.width=el.dataset.pct+'%'; }); });
+  animateCounters();
+}
+
+function raceRow(profile, pct, avatar) {
+  const color = avatar.color||(profile==='mama'?'#e8a020':'#2d9b6e');
+  const gradient = `linear-gradient(90deg,${color}bb,${color})`;
+  const glow = `0 0 20px ${color}44, inset 0 1px 0 rgba(255,255,255,.2)`;
+  const la = lastActivity[profile];
+  return `
+    <div class="race-row">
+      <div class="race-info">
+        <div class="race-person-avatar" style="background:${color};box-shadow:0 0 18px ${color}55" onclick="if(myProfile==='${profile}')openAvatarModal()">${avatar.emoji}</div>
+        <div>
+          <div class="race-person-name">${PROFILE_DEFAULTS[profile].label}</div>
+          <div class="race-person-pct" id="pct-${profile}" data-curr="0" data-target="${pct}">0%</div>
+        </div>
+      </div>
+      <div class="race-track-wrap">
+        <div class="race-track">
+          <div class="race-fill" data-pct="${pct}" style="width:0%;background:${gradient};box-shadow:${glow}">
+            <div class="race-rider">${avatar.emoji}</div>
+          </div>
+        </div>
+        ${la?`<div class="race-last">Última actividad: ${timeSince(la)}</div>`:''}
+      </div>
+    </div>`;
+}
+
+function timeSince(ts) {
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60) return 'hace un momento';
+  const m=Math.floor(s/60); if(m<60) return `hace ${m}min`;
+  const h=Math.floor(m/60); if(h<24) return `hace ${h}h`;
+  return `hace ${Math.floor(h/24)}d`;
+}
+
+function animateCounters() {
+  ['mama','hermano'].forEach(p=>{
+    const el=document.getElementById('pct-'+p);
+    if(!el) return;
+    const target=parseInt(el.dataset.target||'0');
+    let curr=parseInt(el.dataset.curr||'0');
+    const step=()=>{
+      if(curr<target){curr=Math.min(curr+2,target);el.textContent=curr+'%';el.dataset.curr=curr;requestAnimationFrame(step);}
+      else if(curr>target){curr=Math.max(curr-2,target);el.textContent=curr+'%';el.dataset.curr=curr;requestAnimationFrame(step);}
+      else{el.textContent=curr+'%';}
+    };
+    requestAnimationFrame(step);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  RENDER TIMELINE
+// ══════════════════════════════════════════════════════════
+function renderTimeline() {
+  const c=document.getElementById('timeline-container');
+  c.innerHTML=TIMELINE_GROUPS.map(g=>renderGroup(g)).join('');
+  let opened=false;
+  c.querySelectorAll('.tl-group').forEach(el=>{
+    const gid=el.dataset.id;
+    const p1=getGroupProgress(gid,'mama'), p2=getGroupProgress(gid,'hermano');
+    const total=(p1.total+p2.total);
+    const allDone=(p1.done===p1.total&&p2.done===p2.total&&total>0);
+    if(allDone) el.classList.add('complete');
+    if(!opened&&!allDone){el.classList.add('open');opened=true;}
+  });
+  if(!opened&&c.querySelectorAll('.tl-group').length) c.querySelector('.tl-group:last-child').classList.add('open');
+  initReveal();
+}
+
+function renderGroup(g) {
+  const p1=getGroupProgress(g.id,'mama'), p2=getGroupProgress(g.id,'hermano');
+  const totalItems=p1.total+p2.total;
+  const totalDone=p1.done+p2.done;
+  const pct=totalItems?Math.round(totalDone/totalItems*100):0;
+  const urgMap={urgente:'u-urgente',importante:'u-importante',accion:'u-accion',salida:'u-salida'};
+  const lblMap={urgente:'🔴 Empezar YA',importante:'🟡 Importante',accion:'🟢 Acción clave',salida:'🔵 ¡La salida!'};
+  return `
+    <div class="tl-group reveal" data-id="${g.id}">
+      <div class="tl-group-header" onclick="toggleGroup('${g.id}')">
+        <div class="tl-dot-mini"><span class="dm-emoji">${g.emoji}</span><span class="dm-month">${g.month.split(' ')[0]}</span></div>
+        <div class="tl-group-meta">
+          <h3>${g.title}</h3>
+          <div class="gmeta">${g.month} · ${totalDone}/${totalItems} completados</div>
+        </div>
+        <span class="tl-urgency ${urgMap[g.urgency]||'u-accion'}">${lblMap[g.urgency]||''}</span>
+        <span class="tl-chevron">▼</span>
+      </div>
+      <div class="tl-body">
+        <div class="tl-progress-mini"><div class="tl-progress-fill" style="width:${pct}%"></div></div>
+        ${g.note?`<p style="font-size:13px;color:var(--texto-s);margin-bottom:12px;line-height:1.6;padding:8px 10px;background:rgba(232,160,32,.06);border-radius:8px;border-left:3px solid var(--dorado)">💡 ${g.note}</p>`:''}
+        ${g.items.map(it=>renderCheckItem(it)).join('')}
+      </div>
+    </div>`;
+}
+
+function renderCheckItem(item) {
+  const mc=!!checksData.mama[item.id], hc=!!checksData.hermano[item.id];
+  const allDone=(item.who==='shared'&&mc&&hc)||(item.who==='mama'&&mc)||(item.who==='hermano'&&hc);
+  const whoLabel={mama:'Solo Mamá',hermano:'Solo Hermano',shared:'Los dos'}[item.who];
+  const whoClass={mama:'who-mama',hermano:'who-hermano',shared:'who-shared'}[item.who];
+  let checks='';
+  if(item.who==='mama'||item.who==='shared') checks+=checkBox('mama',item.id,mc,myProfile==='mama'&&!!currentUser);
+  if(item.who==='hermano'||item.who==='shared') checks+=checkBox('hermano',item.id,hc,myProfile==='hermano'&&!!currentUser);
+  return `
+    <div class="item-row">
+      <div class="item-checks">${checks}</div>
+      <div style="flex:1">
+        <div class="item-text${allDone?' all-done':''}">${item.text}</div>
+        ${item.note?`<div class="item-note">💡 ${item.note}</div>`:''}
+      </div>
+      <span class="item-who ${whoClass}">${whoLabel}</span>
+    </div>`;
+}
+
+function checkBox(profile, itemId, checked, canCheck) {
+  const color=avatarsData[profile].color;
+  const emoji=avatarsData[profile].emoji;
+  return `
+    <div class="check-wrap${checked?' checked':''}${!canCheck?' disabled':''}"
+         onclick="${canCheck?`toggleCheck('${profile}','${itemId}',this)`:''}"
+         title="${checked?'✅ '+emoji+' completado':'⭕ '+emoji+' pendiente'}">
+      <div class="check-box" style="${checked?'background:'+color+';border-color:'+color:''}">
+        <svg class="check-svg" viewBox="0 0 14 11">
+          <path class="check-path" d="M1.5 5.5L5.5 9.5L12.5 1.5" style="stroke:${checked?'#000':'transparent'}"/>
+        </svg>
+      </div>
+    </div>`;
+}
+
+function toggleGroup(id) {
+  document.querySelector(`.tl-group[data-id="${id}"]`)?.classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════════════════
+//  CHECK / UNCHECK
+// ══════════════════════════════════════════════════════════
+async function toggleCheck(profile, itemId, el) {
+  if (!currentUser||myProfile!==profile) return;
+  const newVal=!(checksData[profile][itemId]);
+  checksData[profile][itemId]=newVal;
+  el.classList.toggle('checked',newVal);
+  const box=el.querySelector('.check-box');
+  const path=el.querySelector('.check-path');
+  if (newVal) {
+    const color=avatarsData[profile].color;
+    box.style.background=color; box.style.borderColor=color;
+    if(path) path.style.stroke='#000';
+    createRipple(el);
+  } else {
+    box.style.background=''; box.style.borderColor='';
+    if(path) path.style.stroke='transparent';
+  }
+  try {
+    await db.ref(`checks/${profile}/${itemId}`).set(newVal||null);
+    await db.ref(`lastActivity/${profile}`).set(Date.now());
+    checkSectionComplete();
+    if(newVal) showToast(`${avatarsData[profile].emoji} ¡Listo!`);
+  } catch(e) { checksData[profile][itemId]=!newVal; showToast('❌ Error al guardar'); }
+}
+
+function checkSectionComplete() {
+  TIMELINE_GROUPS.forEach(g=>{
+    const p1=getGroupProgress(g.id,'mama'), p2=getGroupProgress(g.id,'hermano');
+    if(p1.done===p1.total&&p2.done===p2.total&&p1.total>0){
+      const el=document.querySelector(`.tl-group[data-id="${g.id}"]`);
+      if(el&&!el.classList.contains('complete')){
+        el.classList.add('complete');
+        fireConfetti();
+        showToast('🎉 ¡Sección completada!');
       }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  RENDER DOCS
+// ══════════════════════════════════════════════════════════
+function renderDocs() {
+  document.getElementById('docs-container').innerHTML=DOCS_GROUPS.map(renderDocCard).join('');
+  initReveal();
+}
+
+function renderDocCard(dg) {
+  const doneCount=dg.items.filter(it=>(statusData[it.id]||0)===2).length;
+  const items=dg.items.map(it=>{
+    const s=statusData[it.id]||0;
+    const labels=['Pendiente','En proceso','Listo ✅'];
+    const classes=['st-pending','st-progress','st-done'];
+    const can=!!currentUser;
+    const mc=checksData.mama[it.id], hc=checksData.hermano[it.id];
+    const mc_col=avatarsData.mama.color, hc_col=avatarsData.hermano.color;
+    return `
+      <div class="status-item" onclick="${can?`cycleStatus('${it.id}',${(s+1)%3})`:''}">
+        <span class="status-badge ${classes[s]}">${labels[s]}</span>
+        <span class="status-item-text${s===2?' done-text':''}">${it.text}</span>
+        <div class="who-dots">
+          ${it.who==='mama'||it.who==='shared'?`<div class="who-dot" style="background:${mc_col};opacity:${mc?1:.18}" title="Mamá ${mc?'✅':'pendiente'}"></div>`:''}
+          ${it.who==='hermano'||it.who==='shared'?`<div class="who-dot" style="background:${hc_col};opacity:${hc?1:.18}" title="Hermano ${hc?'✅':'pendiente'}"></div>`:''}
+        </div>
+      </div>`;
+  }).join('');
+  return `
+    <div class="doc-card reveal">
+      <div class="doc-card-header">
+        <h4>${dg.title}</h4>
+        <span class="doc-progress-badge">${doneCount}/${dg.items.length}</span>
+      </div>
+      ${items}
+    </div>`;
+}
+
+async function cycleStatus(itemId, next) {
+  if (!currentUser) { showToast('Inicia sesión para cambiar el estado'); return; }
+  statusData[itemId]=next;
+  renderDocs();
+  try {
+    await db.ref(`status/${itemId}`).set(next||null);
+    if(next===2){showToast('✅ ¡Listo!');fireConfettiSmall();}
+    else if(next===1) showToast('🔄 En proceso');
+    else showToast('⏳ Pendiente');
+  } catch(e){ showToast('❌ Error al guardar'); }
+}
+
+// ══════════════════════════════════════════════════════════
+//  AVATAR MODAL
+// ══════════════════════════════════════════════════════════
+function openAvatarModal() {
+  if (!myProfile||!currentUser){
+    if(currentUser&&!myProfile) showProfileModal();
+    else showToast('Inicia sesión primero');
+    return;
+  }
+  editingProfile=myProfile;
+  const av=avatarsData[myProfile];
+  tempEmoji=av.emoji; tempColor=av.color;
+  document.getElementById('avatar-modal-sub').textContent=`Personalizando: ${PROFILE_DEFAULTS[myProfile].label}`;
+  document.getElementById('prev-name-display').textContent=PROFILE_DEFAULTS[myProfile].label;
+  document.getElementById('prev-role-display').textContent='Vista previa del avatar';
+  document.getElementById('emoji-grid').innerHTML=EMOJI_OPTIONS.map(e=>`<div class="emoji-opt${e===tempEmoji?' selected':''}" onclick="selectEmoji('${e}',this)">${e}</div>`).join('');
+  document.getElementById('color-swatches').innerHTML=COLOR_PRESETS.map(c=>`<div class="color-swatch${c===tempColor?' selected':''}" style="background:${c}" onclick="selectColor('${c}',this)"></div>`).join('');
+  document.getElementById('custom-color-picker').value=tempColor;
+  updateModalPreview();
+  document.getElementById('avatar-modal').classList.remove('hidden');
+}
+function closeAvatarModal(){document.getElementById('avatar-modal').classList.add('hidden');}
+function selectEmoji(e,el){tempEmoji=e;document.querySelectorAll('.emoji-opt').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');updateModalPreview();}
+function selectColor(c,el){tempColor=c;document.querySelectorAll('.color-swatch').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('custom-color-picker').value=c;updateModalPreview();}
+function onCustomColor(c){tempColor=c;document.querySelectorAll('.color-swatch').forEach(x=>x.classList.remove('selected'));updateModalPreview();}
+function updateModalPreview(){const av=document.getElementById('prev-avatar-display');av.textContent=tempEmoji;av.style.background=tempColor;}
+
+async function saveAvatar() {
+  if (!editingProfile) return;
+  avatarsData[editingProfile]={...avatarsData[editingProfile],emoji:tempEmoji,color:tempColor};
+  closeAvatarModal(); renderRace(); renderAuthControls();
+  try { await db.ref(`avatars/${editingProfile}`).update({emoji:tempEmoji,color:tempColor}); showToast('🎨 Avatar guardado!'); }
+  catch(e){ showToast('❌ Error al guardar'); }
+}
+
+// ══════════════════════════════════════════════════════════
+//  PROFILE CLAIM MODAL
+// ══════════════════════════════════════════════════════════
+function showProfileModal() {
+  if (!currentUser) return;
+  selectedClaimProfile=null;
+  document.getElementById('btn-claim-profile').disabled=true;
+  const grid=document.getElementById('profile-claim-grid');
+  grid.innerHTML=['mama','hermano'].map(p=>{
+    const claimed=!!claimsData[p]&&claimsData[p]!==currentUser.uid;
+    const ownClaim=claimsData[p]===currentUser.uid;
+    const av=avatarsData[p];
+    const statusTxt=claimed?'(ya reclamado)':ownClaim?'(ya es el tuyo)':'Disponible';
+    return `<div class="pco${claimed?' taken':''}${ownClaim?' selected':''}" data-profile="${p}"
+         onclick="${!claimed?`selectClaimProfile('${p}',this)`:''}">
+        <div class="pco-emoji">${av.emoji}</div>
+        <div class="pco-name">${PROFILE_DEFAULTS[p].label}</div>
+        <div class="pco-status${claimed?' claimed':''}">${statusTxt}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('profile-modal').classList.remove('hidden');
+}
+
+function selectClaimProfile(p,el) {
+  selectedClaimProfile=p;
+  document.querySelectorAll('.pco').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('btn-claim-profile').disabled=false;
+}
+
+async function claimProfile() {
+  if(!selectedClaimProfile||!currentUser) return;
+  if(claimsData[selectedClaimProfile]&&claimsData[selectedClaimProfile]!==currentUser.uid){showToast('⚠️ Ya fue reclamado');return;}
+  try {
+    await db.ref(`claims/${selectedClaimProfile}`).set(currentUser.uid);
+    myProfile=selectedClaimProfile;
+    closeProfileModal(); renderAuthControls();
+    showToast(`✅ ¡Eres ${PROFILE_DEFAULTS[selectedClaimProfile].label}! 🎉`);
+  } catch(e){showToast('❌ Error');}
+}
+
+function closeProfileModal(){document.getElementById('profile-modal').classList.add('hidden');}
+
+// ══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════════
+function switchTab(id, btn) {
+  document.querySelectorAll('.section-page').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(initReveal,50);
+}
+
+// ══════════════════════════════════════════════════════════
+//  CONFETTI
+// ══════════════════════════════════════════════════════════
+const cvs=document.getElementById('confetti-canvas');
+const ctx2d=cvs.getContext('2d');
+let particles=[], confettiRunning=false;
+function resizeCvs(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
+window.addEventListener('resize',resizeCvs);resizeCvs();
+
+function spawnParticles(n,small){
+  const cols=['#e8a020','#f5c860','#2d9b6e','#80ffb8','#ffffff','#ff8a80','#80c8ff','#c0392b'];
+  for(let i=0;i<n;i++) particles.push({
+    x:Math.random()*cvs.width, y:small?Math.random()*cvs.height*.4:-10,
+    vx:(Math.random()-.5)*(small?5:7), vy:Math.random()*(small?3:5)+1.5,
+    r:Math.random()*(small?4:7)+2,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    rot:Math.random()*Math.PI*2, rotV:(Math.random()-.5)*.22,
+    life:1, shape:Math.random()>.45?'rect':'circle'
+  });
+  if(!confettiRunning) animConfetti();
+}
+function fireConfetti(){spawnParticles(130,false);}
+function fireConfettiSmall(){spawnParticles(45,true);}
+
+function animConfetti(){
+  if(!particles.length){confettiRunning=false;ctx2d.clearRect(0,0,cvs.width,cvs.height);return;}
+  confettiRunning=true;
+  ctx2d.clearRect(0,0,cvs.width,cvs.height);
+  particles=particles.filter(p=>p.life>0&&p.y<cvs.height+20);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.vy+=.09; p.rot+=p.rotV; p.life-=.013;
+    ctx2d.save(); ctx2d.globalAlpha=Math.max(0,p.life); ctx2d.translate(p.x,p.y); ctx2d.rotate(p.rot);
+    ctx2d.fillStyle=p.color;
+    if(p.shape==='rect') ctx2d.fillRect(-p.r,-p.r/2,p.r*2,p.r);
+    else {ctx2d.beginPath();ctx2d.arc(0,0,p.r,0,Math.PI*2);ctx2d.fill();}
+    ctx2d.restore();
+  });
+  requestAnimationFrame(animConfetti);
+}
+
+// ══════════════════════════════════════════════════════════
+//  RIPPLE
+// ══════════════════════════════════════════════════════════
+function createRipple(el) {
+  const r=document.createElement('span');
+  r.className='ripple-wave';
+  const rect=el.getBoundingClientRect(), s=Math.max(rect.width,rect.height)*2;
+  r.style.cssText=`width:${s}px;height:${s}px;left:${-s/2}px;top:${-s/2}px`;
+  el.style.position='relative'; el.style.overflow='hidden';
+  el.appendChild(r); setTimeout(()=>r.remove(),700);
+}
+
+// ══════════════════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════════════════
+let toastT;
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ══════════════════════════════════════════════════════════
+//  ANIMATIONS
+// ══════════════════════════════════════════════════════════
+function initReveal() {
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:.08});
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>obs.observe(el));
+}
+
+function init3dTilt() {
+  document.querySelectorAll('.doc-card,.guide-card,.passport-card,.city-card,.llegada-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const rect=card.getBoundingClientRect();
+      const x=(e.clientX-rect.left)/rect.width-.5;
+      const y=(e.clientY-rect.top)/rect.height-.5;
+      card.style.transform=`perspective(700px) rotateY(${x*9}deg) rotateX(${-y*9}deg) scale(1.02)`;
     });
-  }, { threshold: 0.12 });
+    card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
+  });
+}
 
-  document.querySelectorAll('.fade-in-up, .tl-item').forEach(el => observer.observe(el));
+function initAnimations() {
+  initReveal();
+  init3dTilt();
+}
+
+// ══════════════════════════════════════════════════════════
+//  RENDER ALL
+// ══════════════════════════════════════════════════════════
+function renderAll() {
+  renderRace();
+  renderTimeline();
+  renderDocs();
+  setTimeout(initReveal,80);
+  setTimeout(init3dTilt,200);
+}
+
+// ══════════════════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════════════════
+(function boot() {
+  const saved=localStorage.getItem('fb_config');
+  if (saved) { try { Object.assign(FIREBASE_CONFIG,JSON.parse(saved)); } catch(e){} }
+  if (isConfigured()) {
+    initFirebase(FIREBASE_CONFIG);
+  } else {
+    document.getElementById('setup-screen').classList.remove('hidden');
+    renderAll();
+    initAnimations();
+  }
+})();
 </script>
-
 </body>
 </html>
